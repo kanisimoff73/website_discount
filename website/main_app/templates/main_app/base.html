@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Store</title>
+    <link type="text/css" href="{% static 'main_app/css/styles.css' %}" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Online Store</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Contacts</a>
+            <a href="#">About Us</a>
+            <a href="#">Log in</a>
+            <a href="#">Register</a>
+        </nav>
+    </header>
+    <div class="sidebar">
+        <h2>Categories</h2>
+        <ul>
+            <li><strong>DNS</strong>
+                <ul>
+                    <li>Phones</li>
+                    <li>Televisions</li>
+                    <li>Computers</li>
+                </ul>
+            </li>
+            <li><strong>Eldorado</strong>
+                <ul>
+                    <li>Phones</li>
+                    <li>Televisions</li>
+                    <li>Computers</li>
+                </ul>
+            </li>
+            <li><strong>MVideo</strong>
+                <ul>
+                    <li>Phones</li>
+                    <li>Televisions</li>
+                    <li>Computers</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="content">
+        {% block content %}
+        <!-- Content of the main section goes here -->
+        {% endblock %}
+    </div>
+    <footer>
+        <p>The site was made on Django in 2023.</p>
+    </footer>
+</body>
+</html>
