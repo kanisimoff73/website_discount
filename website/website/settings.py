@@ -79,12 +79,23 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'discount_db',
-        'USER': 'user_website',
-        'PASSWORD': 'postgresql',
+        'USER': 'postgres',
+        'PASSWORD': '228322',
         'HOST': 'localhost',
         'PORT': 5432,
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'discount_db',
+#         'USER': 'postgres',
+#         'PASSWORD': '228322',
+#         'HOST': 'localhost',
+#         'PORT': 5432,
+#     }
+# }
 
 
 # Password validation

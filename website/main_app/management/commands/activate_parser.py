@@ -4,13 +4,47 @@ from os.path import isfile, join
 from django.core.management.base import BaseCommand
 from ...models import *
 from website.settings import BASE_DIR
+from django.core.management import call_command
+from django.apps import apps
+import psycopg2
 
 
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
+        # Попытка удалить таблицы командами через psycopg2
+        # conn = psycopg2.connect(dbname='discount_db', user='postgres',
+        #                         password='228322', host='localhost', port="5432")
+        # cursor = conn.cursor()
+        # print('==========================')
         #
-        #Попробовать тут удалять данные из БД
+        # removed_tables = []
+        # exceptions = []
+        # for model in apps.get_models():
+        #     print(model.__name__)
+        #     if model.__name__ in ('Shops', 'Categories', 'Products'):
+        #         try:
+        #             model.objects.all().delete()
+        #             cursor.execute(f'DROP TABLE IF EXISTS {model._meta.db_table} CASCADE')
+        #             conn.commit()
+        #             print(f"Dropped table {model._meta.db_table} from model {model.__name__}")
+        #         except Exception as e:
+        #             exceptions.append([model._meta.db_table, str(e)])
+        #             print(e)
+        #             continue
+        #         removed_tables.append(model._meta.db_table)
+        # print(f"Removed {len(removed_tables)} tables")
+        # conn.close()
+
+        # это как будто выполняешь python manage.py flush --noinput
+        # Удаляет и создаёт заного таблицы, но удаляет вообще все данные
+        # Даже пользователей
+        # надо найти способ удалять и заного создавать только наши таблицы
+        # как вриант через команды sql всё делать, но мне кажется джанго потом будет на это ругаться, хз
+        # call_command('flush', '--noinput')
+        # это не пригодилось
+        # call_command('migrate')
+
         data_dir = join(BASE_DIR, 'main_app\static\main_app\data')
         shops_id = {}
         categories_id = {}
