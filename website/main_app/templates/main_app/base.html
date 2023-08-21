@@ -12,11 +12,22 @@
     <header>
         <h1>Online Store</h1>
         <nav>
-            <a href="#">Home</a>
-            <a href="#">Contacts</a>
-            <a href="#">About Us</a>
-            <a href="#">Log in</a>
-            <a href="#">Register</a>
+            {% block mainmenu%}
+            <div class="header">
+                <ul id="mainmenu" class="mainmenu">
+                    {% for m in menu %}
+                        <li><a href="{% url m.url.name %}">{{m.title}}</a></li>
+                    {% endfor %}
+                    <!-- {% if request.user.is_authenticated %} -->
+                        <!-- <li class="last">{{user.username}}<a href="{% url 'logout' %}">Log out</a></li> -->
+                    <!-- {% else %} -->
+                        <!-- <li class="last"> -->
+                            <!-- <a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a> -->
+                        <!-- </li> -->
+                    <!-- {% endif %} -->
+                </ul>
+            </div>
+            {% endblock mainmenu %}
         </nav>
     </header>
     <div class="sidebar">
