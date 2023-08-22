@@ -9,12 +9,7 @@ header {
     padding: 10px;
     text-align: center;
 }
-nav {
-    display: flex;
-    justify-content: space-around;
-    background-color: #444;
-    padding: 10px;
-}
+
 nav a {
     color: white;
     text-decoration: none;
@@ -28,6 +23,18 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+.header {
+    background-color: #434254;
+}
+
 .sidebar {
     background-color: #eee;
     float: left;
@@ -39,3 +46,29 @@ footer {
     margin-left: 20%;
     padding: 20px;
 }
+
+ul.mainmenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    height: 60px;
+    color: #fdc073;
+    font-size: 20px;
+    overflow: hidden;
+}
+ul.mainmenu li {
+    display: inline;
+    float: left;
+    margin: 18px 40px 0 30px;
+}
+ul.mainmenu li.logo {margin: 0;}
+ul.mainmenu li.last {float: right;}
+
+ul.mainmenu li a {
+    color: #fdc073;
+    text-decoration: none;
+}
+ul.mainmenu li a:hover {
+    color: #FDA83D;
+}
+
