@@ -12,19 +12,19 @@
     <header>
         <h1>Online Store</h1>
         <nav>
-            {% block mainmenu%}
+            {% block mainmenu %}
             <div class="header">
                 <ul id="mainmenu" class="mainmenu">
                     {% for m in menu %}
-                        <li><a href="{% url m.url.name %}">{{m.title}}</a></li>
+                        <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
                     {% endfor %}
-                    <!-- {% if request.user.is_authenticated %} -->
-                        <!-- <li class="last">{{user.username}}<a href="{% url 'logout' %}">Log out</a></li> -->
-                    <!-- {% else %} -->
-                        <!-- <li class="last"> -->
-                            <!-- <a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a> -->
-                        <!-- </li> -->
-                    <!-- {% endif %} -->
+                    {% if request.user.is_authenticated %}
+                        <li class="last">{{user.username}}<a href="#">Log out</a></li>
+                    {% else %}
+                        <li class="last">
+                            <a href="#">Регистрация</a> | <a href="#">Войти</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
             {% endblock mainmenu %}
@@ -58,7 +58,7 @@
     </div>
     <div class="content">
         {% block content %}
-        <!-- Content of the main section goes here -->
+        <!-- Content of the main section goes here
         {% endblock %}
     </div>
     <footer>
