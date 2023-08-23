@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="43293b8b-bf65-4ad7-9f50-b30a01499129" name="Changes" comment="Добавил переход по ссылкам между страницами, но отображается всё сверху-вниз, надо сделать слева-направо.">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/website_discount.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/website_discount.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/main_app/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/main_app/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/website/main_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/website/main_app/views.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2Tphcu8Ie2rHO9bwUhknXwQ86DH" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Kirill",
+    "last_opened_file_path": "D:/pythonProject/Django",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\pythonProject\website_discount\website\main_app\static" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="views" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="website_discount" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/website/main_app" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/website/main_app/views.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.views" />
+        <item itemvalue="Python.views" />
+        <item itemvalue="Python.views" />
+        <item itemvalue="Python.views" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="43293b8b-bf65-4ad7-9f50-b30a01499129" name="Changes" comment="" />
+      <created>1691746011894</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1691746011894</updated>
+    </task>
+    <task id="LOCAL-00001" summary="First commit.">
+      <option name="closed" value="true" />
+      <created>1691746302187</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1691746302187</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Добавили основные модели (без миграции).&#10;Создали главную страницу сайта.&#10;Прописали URL.">
+      <option name="closed" value="true" />
+      <created>1692264722568</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1692264722568</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Доработать">
+      <option name="closed" value="true" />
+      <created>1692623820401</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1692623820401</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Доработать">
+      <option name="closed" value="true" />
+      <created>1692623841336</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1692623841336</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Добавил переход по ссылкам между страницами, но отображается всё сверху-вниз, надо сделать слева-направо.">
+      <option name="closed" value="true" />
+      <created>1692718812463</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1692718812463</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First commit." />
+    <MESSAGE value="Добавили основные модели (без миграции).&#10;Создали главную страницу сайта.&#10;Прописали URL." />
+    <MESSAGE value="Доработать" />
+    <MESSAGE value="Добавил переход по ссылкам между страницами, но отображается всё сверху-вниз, надо сделать слева-направо." />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил переход по ссылкам между страницами, но отображается всё сверху-вниз, надо сделать слева-направо." />
+  </component>
+</project>

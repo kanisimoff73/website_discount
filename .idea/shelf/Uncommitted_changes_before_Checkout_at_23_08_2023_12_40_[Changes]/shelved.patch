@@ -1,0 +1,39 @@
+Index: website/main_app/templates/main_app/base.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{% load static %}\r\n\r\n<!DOCTYPE html>\r\n<html lang=\"ru\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n    <title>Online Store</title>\r\n    <link type=\"text/css\" href=\"{% static 'main_app/css/styles.css' %}\" rel=\"stylesheet\">\r\n</head>\r\n<body>\r\n    {% block mainmenu %}\r\n    <div class=\"header\">\r\n        <h1>Online Store</h1>\r\n        <ul class=\"mainmenu\">\r\n        {% for m in menu %}\r\n            <li><a href=\"{% url m.url_name %}\">{{m.title}}</a></li>\r\n        {% endfor %}\r\n        </ul>\r\n    </div>\r\n    {% endblock mainmenu %}\r\n\r\n\r\n    <div class=\"sidebar\">\r\n        <h2>Categories</h2>\r\n        <ul>\r\n            <li><strong>DNS</strong>\r\n                <ul>\r\n                    <li>Phones</li>\r\n                    <li>Televisions</li>\r\n                    <li>Computers</li>\r\n                </ul>\r\n            </li>\r\n            <li><strong>Eldorado</strong>\r\n                <ul>\r\n                    <li>Phones</li>\r\n                    <li>Televisions</li>\r\n                    <li>Computers</li>\r\n                </ul>\r\n            </li>\r\n            <li><strong>MVideo</strong>\r\n                <ul>\r\n                    <li>Phones</li>\r\n                    <li>Televisions</li>\r\n                    <li>Computers</li>\r\n                </ul>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n    <div class=\"content\">\r\n        {% block content %}\r\n        <!-- Content of the main section goes here -->\r\n        {% endblock %}\r\n    </div>\r\n    <footer>\r\n        <p>The site was made on Django in 2023.</p>\r\n    </footer>\r\n</body>\r\n</html>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/website/main_app/templates/main_app/base.html b/website/main_app/templates/main_app/base.html
+--- a/website/main_app/templates/main_app/base.html	(revision bede304496de1b6e47018b37f50fe91aeb6e64a2)
++++ b/website/main_app/templates/main_app/base.html	(date 1692769194047)
+@@ -12,14 +12,12 @@
+     {% block mainmenu %}
+     <div class="header">
+         <h1>Online Store</h1>
+-        <ul class="mainmenu">
+-        {% for m in menu %}
+-            <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+-        {% endfor %}
+-        </ul>
++            <ul class="mainmenu">
++                {% for m in menu %}
++                    <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
++                {% endfor %}
++            </ul>
+     </div>
+-    {% endblock mainmenu %}
+-
+ 
+     <div class="sidebar">
+         <h2>Categories</h2>
+@@ -49,7 +47,7 @@
+     </div>
+     <div class="content">
+         {% block content %}
+-        <!-- Content of the main section goes here -->
++<!--    Content of the main section goes here -->
+         {% endblock %}
+     </div>
+     <footer>

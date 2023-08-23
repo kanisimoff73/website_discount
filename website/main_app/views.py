@@ -1,13 +1,35 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views import View
 
-from .models import *
+menu = [
+    {"title": "Главная", "url_name": "main"},
+    {"title": "Обратная связь", "url_name": "contact"},
+    {"title": "О нас", "url_name": "about"},
+]
 
 
-class MainHomePage(ListView):
-    model = Products
-    template_name = "main_app/index.html"
-    # context_object_name = 'products'
+class MainHomePage(View):
+    def get(self, request):
+        context = {
+            "title": "Главная",
+            "menu": menu
+        }
+        return render(request, "main_app/index.html", context=context)
 
-    # def get_context_data(self, *, object_list=None, **kwargs):
-    #     context = super().get_context_data(**kwargs)
+
+class AboutUsPage(View):
+    def get(self, request):
+        context = {
+            "title": "Главная",
+            "menu": menu
+        }
+        return render(request, "main_app/base.html", context=context)
+
+
+class ContactPage(View):
+    def get(self, request):
+        context = {
+            "title": "Главная",
+            "menu": menu
+        }
+        return render(request, "main_app/base.html", context=context)
