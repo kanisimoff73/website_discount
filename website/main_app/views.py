@@ -12,13 +12,13 @@ class MainHomePage(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Домой')
+        c_def = self.get_user_context(title='Домашняя страница')
         return dict(list(context.items()) + list(c_def.items()))
 
 class AboutUs(DataMixin, ListView):
     model = Products
     template_name = 'main_app/about.html'
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='О нас')
         return dict(list(context.items()) + list(c_def.items()))
@@ -33,7 +33,7 @@ class AboutUs(DataMixin, ListView):
 
 class ContactFormView(DataMixin, FormView):
     template_name = 'main_app/contact.html'
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Контакты')
         return dict(list(context.items()) + list(c_def.items()))
@@ -41,7 +41,7 @@ class ContactFormView(DataMixin, FormView):
 
 class LoginIn(DataMixin, LoginView):
     template_name = 'main_app/login_in.html'
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Войти')
         return dict(list(context.items()) + list(c_def.items()))
@@ -49,6 +49,6 @@ class LoginIn(DataMixin, LoginView):
 
 class RegisterUser(DataMixin, CreateView):
     template_name = 'main_app/register.html'
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *, object_list=None, **kwargs):
         c_def = self.get_user_context(title='Регистрация')
         return dict(list(context.items()) + list(c_def.items()))
