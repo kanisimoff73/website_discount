@@ -1,4 +1,5 @@
 from django.shortcuts import render
+
 from django.views.generic import ListView, DetailView, CreateView, FormView
 from django.contrib.auth.views import LoginView
 
@@ -52,3 +53,39 @@ class RegisterUser(DataMixin, CreateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         c_def = self.get_user_context(title='Регистрация')
         return dict(list(context.items()) + list(c_def.items()))
+# =======
+# from django.views import View
+
+# menu = [
+#     {"title": "Главная", "url_name": "main"},
+#     {"title": "Обратная связь", "url_name": "contact"},
+#     {"title": "О нас", "url_name": "about"},
+# ]
+
+
+# class MainHomePage(View):
+#     def get(self, request):
+#         context = {
+#             "title": "Главная",
+#             "menu": menu
+#         }
+#         return render(request, "main_app/index.html", context=context)
+
+
+# class AboutUsPage(View):
+#     def get(self, request):
+#         context = {
+#             "title": "Главная",
+#             "menu": menu
+#         }
+#         return render(request, "main_app/base.html", context=context)
+
+
+# class ContactPage(View):
+#     def get(self, request):
+#         context = {
+#             "title": "Главная",
+#             "menu": menu
+#         }
+#         return render(request, "main_app/base.html", context=context)
+# >>>>>>> feature

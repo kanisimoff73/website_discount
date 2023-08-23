@@ -12,14 +12,12 @@
     {% block mainmenu %}
     <div class="header">
         <h1>Online Store</h1>
-        <ul class="mainmenu">
-        {% for m in menu %}
-            <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
-        {% endfor %}
-        </ul>
+            <ul class="mainmenu">
+                {% for m in menu %}
+                    <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                {% endfor %}
+            </ul>
     </div>
-    {% endblock mainmenu %}
-
 
     <div class="sidebar">
         <h2>Categories</h2>
@@ -49,7 +47,7 @@
     </div>
     <div class="content">
         {% block content %}
-        <!-- Content of the main section goes here -->
+<!--    Content of the main section goes here -->
         {% endblock %}
     </div>
     <footer>
