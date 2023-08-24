@@ -8,17 +8,23 @@
     <title>Online Store</title>
     <link type="text/css" href="{% static 'main_app/css/styles.css' %}" rel="stylesheet">
 </head>
-<body>
-    {% block mainmenu %}
-    <div class="header">
-        <h1>Online Store</h1>
-            <ul class="mainmenu">
-                {% for m in menu %}
-                    <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
-                {% endfor %}
-            </ul>
-    </div>
 
+<body>
+    <header>
+        <h1>Online Store</h1>
+        <nav>
+            {% block mainmenu%}
+            <div class="header">
+                <ul id="mainmenu" class="mainmenu">
+                    {% for m in menu %}
+                        <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endblock mainmenu %}
+        </nav>
+    </header>
+	
     <div class="sidebar">
         <h2>Categories</h2>
         <ul>
@@ -45,13 +51,17 @@
             </li>
         </ul>
     </div>
+	
     <div class="content">
         {% block content %}
-<!--    Content of the main section goes here -->
+        <!-- Content of the main section goes here -->
         {% endblock %}
     </div>
-    <footer>
-        <p>The site was made on Django in 2023.</p>
-    </footer>
+	
+	<tr><td valign="top">
+		<footer id="footer">
+			<p>The site was made on Django in 2023.</p>
+		</footer>
+	</tr></td>
 </body>
 </html>
