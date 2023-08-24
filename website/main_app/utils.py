@@ -13,8 +13,8 @@ menu = [
 
 
 class DataMixin:
-    def __init__(self):
-        self.request = None
+    # def __init__(self):
+    #     self.request = None
 
     def get_user_context(self, **kwargs):
         context = kwargs
