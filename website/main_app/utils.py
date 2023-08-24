@@ -1,7 +1,7 @@
-# from django.db.models import Count
-# from django.core.cache import cache
+from django.db.models import Count
+from django.core.cache import cache
 
-# from .models import *
+from .models import *
 
 menu = [
     {'title': 'Главная', 'url_name': 'home'},
@@ -20,8 +20,8 @@ class DataMixin:
         context = kwargs
 
         user_menu = menu.copy()
-        if not self.request.user.is_authenticated:
-            user_menu.pop(1)
+        # if not self.request.user.is_authenticated:
+        #     user_menu.pop(1)
 
         context["menu"] = user_menu
         return context
