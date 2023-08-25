@@ -9,6 +9,7 @@ from django.apps import apps
 import psycopg2
 from transliterate import translit, get_available_language_codes
 from os.path import exists
+from unidecode import unidecode
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
@@ -46,27 +47,27 @@ class Command(BaseCommand):
         COMMIT;
         '''
 
-        conn = psycopg2.connect(dbname='discount_db', user='postgres',
-                                password='228322', host='localhost', port="5432")
-        cursor = conn.cursor()
-
-        removed_tables = []
-        exceptions = []
-        for model in apps.get_models():
-            if model.__name__ in ('Shops', 'Categories', 'Products'):
-                try:
-                    model.objects.all().delete()
-                    cursor.execute(f'DROP TABLE IF EXISTS {model._meta.db_table} CASCADE')
-                    conn.commit()
-                    print(f"Dropped table {model._meta.db_table} from model {model.__name__}")
-                except Exception as e:
-                    exceptions.append([model._meta.db_table, str(e)])
-                    print(e)
-                    continue
-                removed_tables.append(model._meta.db_table)
-        print(f"Removed {len(removed_tables)} tables")
-        cursor.execute(sql_migrate_0001)
-        conn.close()
+        # conn = psycopg2.connect(dbname='discount_db', user='postgres',
+        #                         password='228322', host='localhost', port="5432")
+        # cursor = conn.cursor()
+        #
+        # removed_tables = []
+        # exceptions = []
+        # for model in apps.get_models():
+        #     if model.__name__ in ('Shops', 'Categories', 'Products'):
+        #         try:
+        #             model.objects.all().delete()
+        #             cursor.execute(f'DROP TABLE IF EXISTS {model._meta.db_table} CASCADE')
+        #             conn.commit()
+        #             print(f"Dropped table {model._meta.db_table} from model {model.__name__}")
+        #         except Exception as e:
+        #             exceptions.append([model._meta.db_table, str(e)])
+        #             print(e)
+        #             continue
+        #         removed_tables.append(model._meta.db_table)
+        # print(f"Removed {len(removed_tables)} tables")
+        # cursor.execute(sql_migrate_0001)
+        # conn.close()
 
         data_dir = join(BASE_DIR, 'main_app\static\main_app\data')
         shops_id = {}
@@ -78,7 +79,7 @@ class Command(BaseCommand):
                 onlyfiles = [f for f in listdir(join(data_dir, shop_name, cat)) if isfile(join(data_dir, shop_name, cat, f))]
                 if onlyfiles:
                     if shop_name not in shops_id:
-                        Shops.objects.create(name=shop_name, slug=shop_name) # создаем магазин если его ещё нет
+                        # Shops.objects.create(name=shop_name, slug=shop_name) # создаем магазин если его ещё нет
                         shops_id[shop_name] = shop_id
                         shop_id += 1
                     if cat not in categories_id:
@@ -89,38 +90,96 @@ class Command(BaseCommand):
                         for symbol in rep:
                             if symbol in cat_slug:
                                 cat_slug = cat_slug.replace(symbol, '')
-                        Categories.objects.create(name=cat, slug=cat_slug) # создаем категорию если её еще нет
+                        # Categories.objects.create(name=cat, slug=cat_slug) # создаем категорию если её еще нет
                 for file_name in onlyfiles:
                     path_to_file = join(data_dir, shop_name, cat, file_name)
+
+                    if path_to_file != 'D:\Programiruem\website_discount\website\main_app\static\main_app\data\Mvideo\Ноутбуки\Ноутбуки страница 1.html':
+                        break
+                    print(path_to_file)
+
                     with open(path_to_file, encoding='utf-8') as file:
                         src = file.read()
                     soup = BeautifulSoup(src, 'lxml')
 
-                    if shop_name == 'DNS-shop':
-                        all_products_data = soup.find_all(class_='catalog-product')
+                    # if shop_name == 'DNS-shop':
+                    #     all_products_data = soup.find_all(class_='catalog-product')
+                    #     for item in all_products_data:
+                    #         name = item.find(class_='catalog-product__name').text[:-1]
+                    #         photo = item.find('picture').find('img').get('src')[2:]
+                    #         if photo:
+                    #             path_to_photo = join(data_dir, shop_name, cat, photo)
+                    #             if not exists(path_to_photo):
+                    #                 path_to_photo = 'путь не найден'
+                    #         else:
+                    #             path_to_photo = 'путь не найден'
+                    #         previous_price = int(item.find_next(class_='product-buy__price_active').next_element[:-1].rstrip().replace(' ', ''))
+                    #         link = item.find(class_='catalog-product__name').get('href')
+                    #         cat_id_ = categories_id[cat]
+                    #         shop = shops_id[shop_name]
+                    #         Products.objects.create(
+                    #             name= name,
+                    #             photo= path_to_photo,
+                    #             previous_price= previous_price,
+                    #             link= link,
+                    #             cat_id= cat_id_,
+                    #             shop_id= shop
+                    #         )
+
+                    if shop_name == 'Mvideo':
+                        rows = True
+                        all_products_data = soup.find_all('div', {'class': 'product-cards-row'})
+                        if not all_products_data:
+                            all_products_data = soup.find_all('div', {'class': 'product-cards-layout__item'})
+                            rows = False
                         for item in all_products_data:
-                            name = item.find(class_='catalog-product__name').text[:-1]
-                            photo = item.find('picture').find('img').get('src')[2:]
-                            if photo:
-                                path_to_photo = join(data_dir, shop_name, cat, photo)
-                                if not exists(path_to_photo):
-                                    path_to_photo = 'путь не найден'
+                            if rows:
+                                products_rows = item.find_all(class_='product-title__text')
+                                for row in products_rows:
+                                    name = row.text
+                                    photo = row.find_previous('img').get('src')[2:]
+                                    if photo:
+                                        path_to_photo = join(data_dir, shop_name, cat, photo)
+                                        if not exists(path_to_photo):
+                                            path_to_photo = 'путь не найден'
+                                    else:
+                                        path_to_photo = 'путь не найден'
+                                    price = int(''.join(map(str, list(i for i in (unidecode(row.find_next(class_='price__main-value').text)) if i.isdigit()))))
+                                    link = row.get('href')
+                                    cat_id_ = categories_id[cat]
+                                    shop = shops_id[shop_name]
+                                    Products.objects.create(
+                                        name=name,
+                                        photo=path_to_photo,
+                                        previous_price=price,
+                                        link=link,
+                                        cat_id=cat_id_,
+                                        shop_id=shop,
+                                    )
                             else:
-                                path_to_photo = 'путь не найден'
-                            previous_price = int(item.find_next(class_='product-buy__price_active').next_element[:-1].rstrip().replace(' ', ''))
-                            link = item.find(class_='catalog-product__name').get('href')
-                            cat_id_ = categories_id[cat]
-                            shop = shops_id[shop_name]
-                            Products.objects.create(
-                                name= name,
-                                photo= path_to_photo,
-                                previous_price= previous_price,
-                                link= link,
-                                cat_id=cat_id_,
-                                shop_id= shop,
-                            )
-                    #
-                    # if shop_name == 'Mvideo':
+                                ...
+
+                            # name = item.find(class_='catalog-product__name').text[:-1]
+                            # photo = item.find('picture').find('img').get('src')[2:]
+                            # if photo:
+                            #     path_to_photo = join(data_dir, shop_name, cat, photo)
+                            #     if not exists(path_to_photo):
+                            #         path_to_photo = 'путь не найден'
+                            # else:
+                            #     path_to_photo = 'путь не найден'
+                            # previous_price = int(
+                            #     item.find_next(class_='product-buy__price_active').next_element[:-1].rstrip().replace(' ', ''))
+                            # link = item.find(class_='catalog-product__name').get('href')
+                            # cat_id_ = categories_id[cat]
+                            # shop = shops_id[shop_name]
+                            # Products.objects.create(
+                            #     name=name,
+                            #     photo=path_to_photo,
+                            #     previous_price=previous_price,
+                            #     link=link,
+                            #     cat_id=cat_id_,
+                            #     shop_id=shop,
+                            # )
 
                     #
                     # if shop_name == 'Eldarado':
