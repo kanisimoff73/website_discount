@@ -16,5 +16,5 @@ class Products(models.Model):
     photo = models.TextField(verbose_name="Фото")
     previous_price = models.FloatField(verbose_name="Цена")
     link = models.TextField(verbose_name='Ссылка', null=True)
-    cat = models.ForeignKey("Categories", on_delete=models.PROTECT, verbose_name="Категории")
-    shop = models.ForeignKey("Shops", on_delete=models.PROTECT, verbose_name="Магазины")
+    cat = models.ForeignKey("Categories", on_delete=models.CASCADE, verbose_name="Категории")
+    shop = models.ForeignKey("Shops", on_delete=models.CASCADE, verbose_name="Магазины")
