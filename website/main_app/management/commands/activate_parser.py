@@ -182,9 +182,9 @@ class Command(BaseCommand):
                                     shop_id=shop,
                                 )
 
-                    if shop_name == 'Eldarado':
-                        all_products_data = soup.find("div", id="listing-container").find("ul", class_="Yk").find_all(
-                            "li", class_="kD")
+                    if shop_name == 'Eldorado':
+                        all_products_data = (soup.find("div", id="listing-container").find("ul", class_="Yk").
+                                             find_all("li", class_="kD"))
                         for item in all_products_data:
                             name = item.find("a", class_="tD").text
                             photo = item.find("a", class_="Bm").next_element.get("src")[2:]
@@ -194,18 +194,47 @@ class Command(BaseCommand):
                                     path_to_photo = 'путь не найден'
                             else:
                                 path_to_photo = 'путь не найден'
-                            previous_price = int("".join(
-                                map(str, list(i for i in (unidecode(item.find("div", class_="undefined UG WG Ux Wx").
-                                                                    find("span").text)) if i.isdigit()))))  # в телевизорах нет класса "undefined UG WG Ux Wx" в последних 4х продуктах, надо завтра исправить
+                            price = int("".join(
+                                map(str, list(
+                                    i for i in (unidecode(item.find("span", class_="ZG gH").text)) if i.isdigit()))))
                             link = item.find("div", class_="lD nD").find("a").get("href")
                             Products.objects.create(
                                 name=name,
                                 photo=path_to_photo,
-                                previous_price=previous_price,
+                                previous_price=price,
                                 link=link,
                                 cat_id=cat_id_,
                                 shop_id=shop,
                             )
 
-
-                    # if shop_name == 'Citilink':
+                    if shop_name == 'Citilink':
+                        all_products_data = soup.find_all("div", class_="e12wdlvo0 app-catalog-1bogmvw e1loosed0")
+                        for item in all_products_data:
+                            name = "".join(
+                                item.find("div", class_="app-catalog-1tp0ino e1an64qs0").find("a").text.split(",")[:-1])
+                            photo = item.find("div", class_="app-catalog-lxji0k e153n9o30")
+                            if photo is None:
+                                photo = "фото не найдено"
+                            else:
+                                photo = item.find("div", class_="app-catalog-lxji0k e153n9o30").next_element.get("src")[
+                                        2:]
+                            if photo:
+                                path_to_photo = join(data_dir, shop_name, cat, photo)
+                                if not exists(path_to_photo):
+                                    path_to_photo = 'путь не найден'
+                            else:
+                                path_to_photo = 'путь не найден'
+                            price = int("".join(
+                                map(str, list(i for i in (unidecode(item.find("span", class_="e1j9birj0 e106ikdt0 "
+                                                                                             "app-catalog-j8h82j "
+                                                                                             "e1gjr6xo0").text)) if
+                                              i.isdigit()))))
+                            link = item.find("div", class_="app-catalog-1tp0ino e1an64qs0").find("a").get("href")
+                            Products.objects.create(
+                                name=name,
+                                photo=path_to_photo,
+                                previous_price=price,
+                                link=link,
+                                cat_id=cat_id_,
+                                shop_id=shop,
+                            )
