@@ -10,6 +10,8 @@ import psycopg2
 from transliterate import translit, get_available_language_codes
 from os.path import exists
 from unidecode import unidecode
+
+
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
@@ -47,8 +49,8 @@ class Command(BaseCommand):
         COMMIT;
         '''
 
-        conn = psycopg2.connect(dbname='discount_db', user='postgres',
-                                password='228322', host='localhost', port="5432")
+        conn = psycopg2.connect(dbname='discount_db', user='user_website',
+                                password='postgresql', host='localhost', port="5432")
         cursor = conn.cursor()
 
         removed_tables = []
@@ -76,10 +78,11 @@ class Command(BaseCommand):
         cat_id = 1
         for shop_name in listdir(data_dir):
             for cat in listdir(join(data_dir, shop_name)):
-                onlyfiles = [f for f in listdir(join(data_dir, shop_name, cat)) if isfile(join(data_dir, shop_name, cat, f))]
+                onlyfiles = [f for f in listdir(join(data_dir, shop_name, cat)) if
+                             isfile(join(data_dir, shop_name, cat, f))]
                 if onlyfiles:
                     if shop_name not in shops_id:
-                        Shops.objects.create(name=shop_name, slug=shop_name) # создаем магазин если его ещё нет
+                        Shops.objects.create(name=shop_name, slug=shop_name)  # создаем магазин если его ещё нет
                         shops_id[shop_name] = shop_id
                         shop_id += 1
                     if cat not in categories_id:
@@ -90,7 +93,7 @@ class Command(BaseCommand):
                         for symbol in rep:
                             if symbol in cat_slug:
                                 cat_slug = cat_slug.replace(symbol, '')
-                        Categories.objects.create(name=cat, slug=cat_slug) # создаем категорию если её еще нет
+                        Categories.objects.create(name=cat, slug=cat_slug)  # создаем категорию если её еще нет
                     cat_id_ = categories_id[cat]
                     shop = shops_id[shop_name]
                 for file_name in onlyfiles:
@@ -111,7 +114,9 @@ class Command(BaseCommand):
                                     path_to_photo = 'путь не найден'
                             else:
                                 path_to_photo = 'путь не найден'
-                            previous_price = int(item.find_next(class_='product-buy__price_active').next_element[:-1].rstrip().replace(' ', ''))
+                            previous_price = int(
+                                item.find_next(class_='product-buy__price_active').next_element[:-1].rstrip().replace(
+                                    ' ', ''))
                             link = item.find(class_='catalog-product__name').get('href')
                             Products.objects.create(
                                 name=name,
@@ -140,7 +145,9 @@ class Command(BaseCommand):
                                             path_to_photo = 'путь не найден'
                                     else:
                                         path_to_photo = 'путь не найден'
-                                    price = int(''.join(map(str, list(i for i in (unidecode(row.find_next(class_='price__main-value').text)) if i.isdigit()))))
+                                    price = int(''.join(map(str, list(
+                                        i for i in (unidecode(row.find_next(class_='price__main-value').text)) if
+                                        i.isdigit()))))
                                     link = row.get('href')
                                     Products.objects.create(
                                         name=name,
@@ -161,7 +168,8 @@ class Command(BaseCommand):
                                     path_to_photo = 'путь не найден'
                                 price = item.find('span', {'class': 'price__main-value'})
                                 if price:
-                                    price = int(''.join(map(str, list(i for i in (unidecode(price.text)) if i.isdigit()))))
+                                    price = int(
+                                        ''.join(map(str, list(i for i in (unidecode(price.text)) if i.isdigit()))))
                                 else:
                                     price = 'Нет в наличии'
                                 link = item.find(class_='product-title__text').get('href')
@@ -174,9 +182,59 @@ class Command(BaseCommand):
                                     shop_id=shop,
                                 )
 
-                    #
-                    # if shop_name == 'Eldarado':
+                    if shop_name == 'Eldorado':
+                        all_products_data = (soup.find("div", id="listing-container").find("ul", class_="Yk").
+                                             find_all("li", class_="kD"))
+                        for item in all_products_data:
+                            name = item.find("a", class_="tD").text
+                            photo = item.find("a", class_="Bm").next_element.get("src")[2:]
+                            if photo:
+                                path_to_photo = join(data_dir, shop_name, cat, photo)
+                                if not exists(path_to_photo):
+                                    path_to_photo = 'путь не найден'
+                            else:
+                                path_to_photo = 'путь не найден'
+                            price = int("".join(
+                                map(str, list(
+                                    i for i in (unidecode(item.find("span", class_="ZG gH").text)) if i.isdigit()))))
+                            link = item.find("div", class_="lD nD").find("a").get("href")
+                            Products.objects.create(
+                                name=name,
+                                photo=path_to_photo,
+                                previous_price=price,
+                                link=link,
+                                cat_id=cat_id_,
+                                shop_id=shop,
+                            )
 
-                    #
-                    # if shop_name == 'Citilink':
-
+                    if shop_name == 'Citilink':
+                        all_products_data = soup.find_all("div", class_="e12wdlvo0 app-catalog-1bogmvw e1loosed0")
+                        for item in all_products_data:
+                            name = "".join(
+                                item.find("div", class_="app-catalog-1tp0ino e1an64qs0").find("a").text.split(",")[:-1])
+                            photo = item.find("div", class_="app-catalog-lxji0k e153n9o30")
+                            if photo is None:
+                                photo = "фото не найдено"
+                            else:
+                                photo = item.find("div", class_="app-catalog-lxji0k e153n9o30").next_element.get("src")[
+                                        2:]
+                            if photo:
+                                path_to_photo = join(data_dir, shop_name, cat, photo)
+                                if not exists(path_to_photo):
+                                    path_to_photo = 'путь не найден'
+                            else:
+                                path_to_photo = 'путь не найден'
+                            price = int("".join(
+                                map(str, list(i for i in (unidecode(item.find("span", class_="e1j9birj0 e106ikdt0 "
+                                                                                             "app-catalog-j8h82j "
+                                                                                             "e1gjr6xo0").text)) if
+                                              i.isdigit()))))
+                            link = item.find("div", class_="app-catalog-1tp0ino e1an64qs0").find("a").get("href")
+                            Products.objects.create(
+                                name=name,
+                                photo=path_to_photo,
+                                previous_price=price,
+                                link=link,
+                                cat_id=cat_id_,
+                                shop_id=shop,
+                            )
