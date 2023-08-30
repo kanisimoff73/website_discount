@@ -24,37 +24,67 @@
             {% endblock mainmenu %}
         </nav>
     </header>
-
+<!-- Начало сайд бара -->
+    {% block sidebar %}
+    <h2>Categories</h2>
     <div class="sidebar">
-        <h2>Categories</h2>
         <ul>
-            <li><strong>DNS</strong>
-                <ul>
-                    <li>Phones</li>
-                    <li>Televisions</li>
-                    <li>Computers</li>
-                </ul>
-            </li>
-            <li><strong>Eldorado</strong>
-                <ul>
-                    <li>Phones</li>
-                    <li>Televisions</li>
-                    <li>Computers</li>
-                </ul>
-            </li>
-            <li><strong>MVideo</strong>
-                <ul>
-                    <li>Phones</li>
-                    <li>Televisions</li>
-                    <li>Computers</li>
-                </ul>
-            </li>
+            {% for shop in side_bar %}
+                <li><a href="{% url 'shop' shop_slug=shop.shop__slug %}">{{ shop.shop__name }}</a></li>
+                    <ul>
+                        {% for catigory in shop.shop_categories %}
+                            <li><a href="{% url 'cat' shop_slug=shop.shop__slug cat_slug=catigory.cat__slug%}">{{ catigory.cat__name }}</a></li>
+                        {% endfor %}
+                    </ul>
+            {% endfor %}
         </ul>
     </div>
+    {% endblock sidebar %}
+<!-- Конец сайд бара -->
     <div class="content">
         {% block content %}
-<!--    Content of the main section goes here -->
+<!--    Content of the main section goes here-->
         {% endblock %}
+<!-- Переключение страниц -->
+{% if page_obj.has_other_pages %}
+    <nav class="list-pages">
+        <ul>
+
+
+    {% if page_obj.has_previous %}
+        <li class="page-num">
+             <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+        </li>
+    {% endif %}
+
+
+            {% for p in paginator.page_range %}
+                {% if page_obj.number == p %}
+                    <li class="page-num page-num-selected">{{ p }}</li>
+                {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
+                    <li class="page-num">
+                        <a href="?page={{ p }}">{{ p }}</a>
+                {% endif %}
+                    </li>
+            {% endfor %}
+
+
+    {% if page_obj.number < paginator.num_pages|add:-2 %}
+        <li class="page-num">
+            <a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a>
+        </li>
+    {% endif %}
+
+
+{% if page_obj.has_next %}
+    <li class="page-num">
+         <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+    </li>
+{% endif %}
+        </ul>
+    </nav>
+{% endif %}
+<!-- Конец переключателя страниц -->
     </div>
     <footer>
         <p>The site was made on Django in 2023.</p>

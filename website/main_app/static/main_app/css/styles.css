@@ -20,7 +20,7 @@ nav a {		/* и это */
     color: white;
     text-decoration: none;
 }
-footer {	/* не фиксируется, по идее должно через параметр position: absolute; */
+#footer {	/* не фиксируется, по идее должно через параметр position: absolute; */
     background-color: #333;
     color: white;
     text-align: left;
@@ -42,12 +42,9 @@ footer {	/* не фиксируется, по идее должно через �
     padding: 20px;
 }
 .content {
-    /* margin-left: 20%; */
-    /* padding: 20px; */
-	/* flex: 1 0 auto; */
-	/* text-align: center; */
-	padding: 0px 20px 20px 600px;
-	width: 50%;
+    margin-left: 20%; 
+    padding: 20px; 
+	flex: 1 0 auto; 
 	box-sizing: border-box;
 }
 ul.mainmenu {	/* настройка менюшки сверху */
@@ -70,4 +67,42 @@ ul.mainmenu li a {		/* хз, ни на что не влияет */
 }
 ul.mainmenu li a:hover {	/* то же, что и предыдущее */
     color: #FDA83D;
+}
+
+.list-pages {
+    text-align: center;
+    margin: 0 0 20px 0;
+}
+.list-pages ul {
+    margin: 20px 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+.list-pages ul li {
+    display: inline-block;
+    margin: 0 20px 0 0;
+}
+.list-pages a {
+    color: #000;
+    font-size: 24px;
+    text-decoration: none;
+}
+.list-pages .page-num, .page-num-selected {
+    display: inline-block;
+    width: 60px;
+    height: 44px;
+    padding: 16px 0 0 0;
+    border: 1px solid #d0d0d0;
+    border-radius: 30px;
+}
+.list-pages .page-num:hover {
+    box-shadow: 3px 3px 1px #d0d0d0; 
+}
+.list-pages .page-num-selected {
+    border: none;
+    color: #000;
+    font-size: 20px;
+}
+.list-pages .page-num-selected:hover {
+    box-shadow: none; 
 }

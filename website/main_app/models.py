@@ -1,11 +1,14 @@
 from django.db import models
-
+from django.urls import reverse
 
 class Shops(models.Model):
     objects = None
     name = models.CharField(max_length=20, db_index=True, verbose_name="Магазины")
     slug = models.SlugField(max_length=200, unique=True, db_index=True, verbose_name="URL")
 
+
+    # class Meta:
+    #     db_table = 'shops'
 
 class Categories(models.Model):
     objects = None

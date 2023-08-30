@@ -3,7 +3,20 @@
 {% block content %}
 <pre>
     <p class="ass">
-        <img src="static/main_app/images/ass_we_can.jpg" style="width: 300px;"/> <!-- как сделать путь короче? -->
+        <img src="/static/main_app/images/ass_we_can.jpg" style="width: 300px;"/> <!-- как сделать путь короче? -->
     </p>
 </pre>
+<ul>
+{% for p in products %}
+    <li><div>
+        <p><a href="{{p.link}}">{{p.name}}</a></p>
+        <p>Магазин: {{p.shop.name}}</p>
+        <p>Категория: {{p.cat.name}}</p>
+        <p>Цена: {{p.previous_price}}</p>
+    </div>
+    </li>
+        
+
+{% endfor %}
+</ul>
 {% endblock %}

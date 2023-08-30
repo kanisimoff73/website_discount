@@ -7,5 +7,7 @@ urlpatterns = [
     path('about/', AboutUs.as_view(), name='about'),
     path('contact/', ContactFormView.as_view(), name='contact'),
     # path('login/', LoginIn.as_view(), name='login'),
-    # path('register', RegisterUser.as_view(), name='register')
+    # path('register', RegisterUser.as_view(), name='register'),
+    path('<slug:shop_slug>/', ShopChoice.as_view(), name='shop'),
+    path('<slug:shop_slug>/<slug:cat_slug>', CatigoryChoise.as_view(), name='cat')
 ]

@@ -28,8 +28,7 @@ for raw_dictionary in sql_res:
 
 
 class DataMixin:
-    # def __init__(self):
-    #     self.request = None
+    paginate_by = 4
 
     def get_user_context(self, **kwargs):
         context = kwargs
@@ -40,4 +39,8 @@ class DataMixin:
         user_side_bar = side_bar.copy()
         context["menu"] = user_menu
         context['side_bar'] = user_side_bar
+        if 'shop_selected' not in context:
+            context['shop_selected'] = 0
+        if 'cat_selected' not in context:
+            context['cat_selected'] = 0
         return context
