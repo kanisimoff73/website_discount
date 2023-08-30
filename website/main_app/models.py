@@ -2,16 +2,19 @@ from django.db import models
 
 
 class Shops(models.Model):
+    objects = None
     name = models.CharField(max_length=20, db_index=True, verbose_name="Магазины")
     slug = models.SlugField(max_length=200, unique=True, db_index=True, verbose_name="URL")
 
 
 class Categories(models.Model):
+    objects = None
     name = models.CharField(max_length=20, db_index=True, verbose_name="Категория")
     slug = models.SlugField(max_length=200, unique=True, db_index=True, verbose_name="URL")
 
 
 class Products(models.Model):
+    objects = None
     name = models.TextField(blank=True, db_index=True, verbose_name="Название")
     photo = models.TextField(verbose_name="Фото")
     previous_price = models.FloatField(verbose_name="Цена")
