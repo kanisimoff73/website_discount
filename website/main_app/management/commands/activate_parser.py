@@ -20,6 +20,14 @@ class Command(BaseCommand):
         что бы id(pk) всегда формировался с 1, с последующим наполнением таблиц данными
         """
 
+        # При изменении структуры БД, требуется выполнить данные пункты:
+        # 1) python manage.py migrate main_app zero
+        # 2) удалить папку миграций
+        # 3) python manage.py makemigrations main_app
+        # 4) python manage.py migrate
+        # 5) python manage.py sqlmigrate main_app 0001
+        # 6) в activate_parser перезаписать sql код из 5 пункта
+
         sql_migrate_0001 = '''
         BEGIN;
         --
