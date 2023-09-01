@@ -7,8 +7,8 @@ menu = [
     {'title': 'Главная', 'url_name': 'home'},
     {'title': 'О нас', 'url_name': 'about'},
     {'title': 'Контакты', 'url_name': 'contact'},
-    # {'title': 'Войти', 'url_name': 'login'},
-    # {'title': 'Регистрация', 'url_name': 'register'},
+    {'title': 'Войти', 'url_name': 'login'},
+    {'title': 'Регистрация', 'url_name': 'register'},
 ]
 side_bar = []
 sql_res = Products.objects.select_related('cat', 'shop').distinct().values('shop__name', 'shop__slug', 'cat__name', 'cat__slug').order_by('shop__name')
@@ -32,7 +32,6 @@ class DataMixin:
 
     def get_user_context(self, **kwargs):
         context = kwargs
-
         user_menu = menu.copy()
         # if not self.request.user.is_authenticated:
         #     user_menu.pop(1)

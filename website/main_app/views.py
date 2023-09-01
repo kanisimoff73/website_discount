@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.contrib.auth import logout, login
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 
-from django.views.generic import ListView, DetailView, CreateView, FormView
+from django.views.generic import DetailView, CreateView, FormView, ListView
 from django.contrib.auth.views import LoginView
 
+from .forms import RegisterUserForm, LoginUserForm
 from .models import *
 from .utils import *
 
@@ -14,8 +17,8 @@ class MainHomePage(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Домашняя страница')
-        return dict(list(context.items()) + list(c_def.items()))
+        user_context = self.get_user_context(title='Домашняя страница')
+        return dict(list(context.items()) + list(user_context.items()))
 
     def get_queryset(self):
         return Products.objects.select_related('cat', 'shop').order_by('previous_price')
@@ -26,8 +29,8 @@ class AboutUs(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='О нас')
-        return dict(list(context.items()) + list(c_def.items()))
+        user_context = self.get_user_context(title='О нас')
+        return dict(list(context.items()) + list(user_context.items()))
 
 
 class ContactFormView(DataMixin, FormView):
@@ -35,8 +38,8 @@ class ContactFormView(DataMixin, FormView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Контакты')
-        return dict(list(context.items()) + list(c_def.items()))
+        user_context = self.get_user_context(title='Контакты')
+        return dict(list(context.items()) + list(user_context.items()))
 
 
 class LoginIn(DataMixin, LoginView):
@@ -44,8 +47,8 @@ class LoginIn(DataMixin, LoginView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Войти')
-        return dict(list(context.items()) + list(c_def.items()))
+        user_context = self.get_user_context(title='Войти')
+        return dict(list(context.items()) + list(user_context.items()))
 
 
 class RegisterUser(DataMixin, CreateView):
@@ -53,8 +56,8 @@ class RegisterUser(DataMixin, CreateView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title='Регистрация')
-        return dict(list(context.items()) + list(c_def.items()))
+        user_context = self.get_user_context(title='Регистрация')
+        return dict(list(context.items()) + list(user_context.items()))
 
 
 class ShopChoice(DataMixin, ListView):
@@ -63,12 +66,12 @@ class ShopChoice(DataMixin, ListView):
     context_object_name = 'products'
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        print(self.kwargs)
         context = super().get_context_data(**kwargs)
         s = Shops.objects.get(slug=self.kwargs['shop_slug'])
-        c_def = self.get_user_context(title='Магазин - ' + str(s.name),
+        user_context = self.get_user_context(title='Магазин - ' + str(s.name),
                                       shop_selected=s.slug)
-        return dict(list(context.items()) + list(c_def.items()))
+        print(context)
+        return dict(list(context.items()) + list(user_context.items()))
 
     def get_queryset(self):
         return Products.objects.filter(shop__slug=self.kwargs['shop_slug']).select_related('shop').order_by('previous_price')
@@ -82,11 +85,43 @@ class CatigoryChoise(DataMixin, ListView):
         context = super().get_context_data(**kwargs)
         s = Shops.objects.get(slug=self.kwargs['shop_slug'])
         c = Categories.objects.get(slug=self.kwargs['cat_slug'])
-        c_def = self.get_user_context(title=f'{s.name} - {c.name}',
+        user_context = self.get_user_context(title=f'{s.name} - {c.name}',
                                       shop_selected=s.slug,
                                       cat_selected=c.slug)
-        return dict(list(context.items()) + list(c_def.items()))
+        return dict(list(context.items()) + list(user_context.items()))
 
 
     def get_queryset(self):
-        return Products.objects.filter(shop__slug=self.kwargs['shop_slug'], cat__slug=self.kwargs['cat_slug']).select_related('shop', 'cat')
+        return Products.objects.filter(shop__slug=self.kwargs['shop_slug'], cat__slug=self.kwargs['cat_slug']).select_related('shop', 'cat').order_by('previous_price')
+
+
+class RegisterUser(DataMixin, CreateView):
+    form_class = RegisterUserForm
+    template_name = 'main_app/register.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_context = self.get_user_context(title="Регистрация")
+        return dict(list(context.items()) + list(user_context.items()))
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
+
+class LoginUser(DataMixin, LoginView):
+    form_class = LoginUserForm
+    template_name = 'main_app/login.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_context = self.get_user_context(title="Авторизация")
+        return dict(list(context.items()) + list(user_context.items()))
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+def logout_user(request):
+    logout(request)
+    return redirect('home')
