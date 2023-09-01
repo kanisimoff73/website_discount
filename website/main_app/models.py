@@ -6,11 +6,17 @@ class Shops(models.Model):
     name = models.CharField(max_length=20, db_index=True, verbose_name="Магазины")
     slug = models.SlugField(max_length=200, unique=True, db_index=True, verbose_name="URL")
 
+    def __str__(self):
+        return self.name
+
 
 class Categories(models.Model):
     objects = None
     name = models.CharField(max_length=20, db_index=True, verbose_name="Категория")
     slug = models.SlugField(max_length=200, unique=True, db_index=True, verbose_name="URL")
+
+    def __str__(self):
+        return self.name
 
 
 class Products(models.Model):
@@ -21,3 +27,6 @@ class Products(models.Model):
     link = models.TextField(verbose_name='Ссылка', null=True)
     cat = models.ForeignKey("Categories", on_delete=models.CASCADE, verbose_name="Категории")
     shop = models.ForeignKey("Shops", on_delete=models.CASCADE, verbose_name="Магазины")
+
+    def __str__(self):
+        return self.name

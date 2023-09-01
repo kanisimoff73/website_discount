@@ -2,17 +2,25 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+	/* background-image: url('/static/main_app/images/ass_we_can.jpg'); */
+	/* background-size: 30%; */
+	/* background-repeat: no-repeat; */
+	/* background-position: center; */
 }
 header {
-    background-color: #333;
+    background-color: #333333;
     color: white;
-    padding: 10px;
-    text-align: center;
+    padding: 20px;
+    text-align: left; /* потом поменять на center, когда будет конечный вариант */
+	background-image: url('/static/main_app/images/stack.jpg');
+	background-size: 30%;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 nav {	/* для менюшки */
     display: flex;
     justify-content: space-around;
-    background-color: #444;
+    background-color: none; /* поменять на #444, когда будет конечный вариант */
     padding: 0px;
 	
 }
@@ -20,10 +28,10 @@ nav a {		/* и это */
     color: white;
     text-decoration: none;
 }
-footer {	/* не фиксируется, по идее должно через параметр position: absolute; */
-    background-color: #333;
-    color: white;
-    text-align: left;
+footer {
+    background-color: none;
+    color: none;
+    text-align: right;
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -42,32 +50,32 @@ footer {	/* не фиксируется, по идее должно через �
     padding: 20px;
 }
 .content {
-    /* margin-left: 20%; */
-    /* padding: 20px; */
-	/* flex: 1 0 auto; */
-	/* text-align: center; */
-	padding: 0px 20px 20px 600px;
-	width: 50%;
+    margin-left: 20%;
+    padding: 20px;
+	flex: 1 0 auto;
+	text-align: left;
+	/* padding: 0px 20px 20px 600px; */
+	/* width: 50%; */
 	box-sizing: border-box;
 }
-ul.mainmenu {	/* настройка менюшки сверху */
+ul.products {	настройка менюшки сверху
     list-style: none;
     margin: 0;
     padding: 0;
     height: 60px;
-    color: #fdc073;
+    color: black;
     font-size: 20px;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
-ul.mainmenu li {	/* настройка отдельных элементов менюшки */
+ul.products li {	/* настройка отдельных элементов менюшки */
     display: inline;
     float: left;
     margin: 18px 40px 0 30px;
 }
-ul.mainmenu li a {		/* хз, ни на что не влияет */
+ul.products li a {		/* хз, ни на что не влияет */
     color: white;
     text-decoration: none;
 }
-ul.mainmenu li a:hover {	/* то же, что и предыдущее */
+ul.products li a:hover {	/* то же, что и предыдущее */
     color: #FDA83D;
 }
