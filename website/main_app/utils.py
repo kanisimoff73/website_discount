@@ -13,7 +13,6 @@ menu = [
 
 class DataMixin:
     model = Shops
-    context_object_name = "shops"
 
     def get_main_context(self, **kwargs):
         context = kwargs
@@ -22,10 +21,11 @@ class DataMixin:
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        queryset = Shops.objects.all()
 
         categories_by_shop = []
 
-        for shop in context["shops"]:
+        for shop in queryset:
             categories = Categories.objects.filter(products__shop=shop.pk).distinct()
             categories_by_shop.append((shop, categories))
 
