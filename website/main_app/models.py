@@ -6,7 +6,6 @@ class Shops(models.Model):
     name = models.CharField(max_length=20, db_index=True, verbose_name="Магазины")
     slug = models.SlugField(max_length=200, unique=True, db_index=True, verbose_name="URL")
 
-
     # class Meta:
     #     db_table = 'shops'
 

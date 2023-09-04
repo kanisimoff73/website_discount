@@ -106,3 +106,25 @@ ul.mainmenu li a:hover {	/* то же, что и предыдущее */
 .list-pages .page-num-selected:hover {
     box-shadow: none; 
 }
+
+.form-input {
+    width: 300px
+    font-size: 16px;
+}
+
+.form-label {
+    display: inline-block;
+    min-width: 150px;
+    vertical-align: top;
+}
+
+div.form-error ul {
+    list-style: none;
+    padding: 0;
+    color: #CC0000;
+}
+
+.form-button {
+    min-width: 200px;
+    font-size: 16px;
+}

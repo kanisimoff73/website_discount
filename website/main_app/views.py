@@ -2,7 +2,7 @@ from django.contrib.auth import logout, login
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
-from django.views.generic import DetailView, CreateView, FormView, ListView
+from django.views.generic import CreateView, FormView, ListView
 from django.contrib.auth.views import LoginView
 
 from .forms import RegisterUserForm, LoginUserForm
@@ -42,13 +42,17 @@ class ContactFormView(DataMixin, FormView):
         return dict(list(context.items()) + list(user_context.items()))
 
 
-class LoginIn(DataMixin, LoginView):
-    template_name = 'main_app/login_in.html'
+class LoginUser(DataMixin, LoginView):
+    form_class = LoginUserForm
+    template_name = 'main_app/login.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_context = self.get_user_context(title='Войти')
+        user_context = self.get_user_context(title="Авторизация")
         return dict(list(context.items()) + list(user_context.items()))
+
+    def get_success_url(self):
+        return reverse_lazy('home')
 
 
 class RegisterUser(DataMixin, CreateView):
@@ -70,7 +74,6 @@ class ShopChoice(DataMixin, ListView):
         s = Shops.objects.get(slug=self.kwargs['shop_slug'])
         user_context = self.get_user_context(title='Магазин - ' + str(s.name),
                                       shop_selected=s.slug)
-        print(context)
         return dict(list(context.items()) + list(user_context.items()))
 
     def get_queryset(self):
@@ -110,17 +113,6 @@ class RegisterUser(DataMixin, CreateView):
         login(self.request, user)
         return redirect('home')
 
-class LoginUser(DataMixin, LoginView):
-    form_class = LoginUserForm
-    template_name = 'main_app/login.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user_context = self.get_user_context(title="Авторизация")
-        return dict(list(context.items()) + list(user_context.items()))
-
-    def get_success_url(self):
-        return reverse_lazy('home')
 
 def logout_user(request):
     logout(request)
