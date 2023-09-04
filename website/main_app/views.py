@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.views.generic import CreateView, FormView, ListView
 from django.contrib.auth.views import LoginView
 from .utils import *
@@ -9,13 +8,11 @@ class MainHomePage(DataMixin, ListView):
 
 
 class ProductsView(DataMixin, ListView):
-    template_name = "main_app.home.html"
+    template_name = "main_app/home.html"
     context_object_name = "products"
 
     def get_queryset(self):
-        category_id = self.kwargs['category_id']
-        print(category_id)
-        return Products.objects.filter(products__cat=category_id)
+        return Products.objects.filter(cat__slug=self.kwargs["cat_slug"])
 
 
 class AboutUs(DataMixin, ListView):
