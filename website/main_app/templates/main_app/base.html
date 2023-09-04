@@ -32,19 +32,21 @@
 				<h3>{{shop.name}}</h3>
 				<ul>
 					{% for category in categories %}
-						<li><a href="{% url 'products' category.category_id %}">{{category.name}}</a></li>
+						<li><a href="{{ category.get_absolute_url }}">{{category.name}}</a></li>
 					{% endfor %}
 				</ul>
 			{% endfor %}
 	</div>
-	<!-- Sidebar -->
+	<!-- end Sidebar -->
 
 	{% block content %}
 	{% endblock content %}
 
-	<footer>
-		<p>The site was made on Django in 2023.</p>
-	</footer>
+	<footer><tr><td valign=top>
+		<div id="footer">
+			<p>&copy; The site was made on Django in 2023.</p>
+		</div>
+	</td></tr></table>
 
 </body>
 </html>
