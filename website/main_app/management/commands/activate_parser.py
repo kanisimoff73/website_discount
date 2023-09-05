@@ -102,7 +102,7 @@ class Command(BaseCommand):
                                         i for i in (unidecode(row.find_next(class_='price__main-value').text)) if
                                         i.isdigit()))))
                                     if not price:
-                                        price = 0
+                                        price = 999999
                                     link = row.get('href')
                                     Products.objects.create(
                                         name=name,
@@ -126,7 +126,7 @@ class Command(BaseCommand):
                                     price = int(
                                         ''.join(map(str, list(i for i in (unidecode(price.text)) if i.isdigit()))))
                                 else:
-                                    price = 0
+                                    price = 999999
                                 link = item.find(class_='product-title__text').get('href')
                                 Products.objects.create(
                                     name=name,

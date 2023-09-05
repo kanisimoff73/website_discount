@@ -3,7 +3,7 @@ from .models import *
 menu_not_authenticated = [
     {'title': 'Главная', 'url_name': 'home'},
     {'title': 'О нас', 'url_name': 'about'},
-    {'title': 'Контакты', 'url_name': 'contact'},
+    {'title': 'Обратная связь', 'url_name': 'contact'},
     {'title': 'Войти', 'url_name': 'login'},
     {'title': 'Регистрация', 'url_name': 'register'},
 ]
@@ -11,7 +11,7 @@ menu_not_authenticated = [
 menu_is_authenticated = [
     {'title': 'Главная', 'url_name': 'home'},
     {'title': 'О нас', 'url_name': 'about'},
-    {'title': 'Контакты', 'url_name': 'contact'},
+    {'title': 'Обратная связь', 'url_name': 'contact'},
     {'title': 'Выйти', 'url_name': 'logout'},
 ]
 side_bar = []

@@ -1,11 +1,14 @@
 from django.contrib.auth import logout, login
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
 from django.views.generic import CreateView, FormView, ListView
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 
-from .forms import RegisterUserForm, LoginUserForm
+from .email import send_contact_email_message
+from .forms import RegisterUserForm, LoginUserForm, ContactForm, UserForgotPasswordForm, UserSetNewPasswordForm
 from .models import *
 from .utils import *
 
@@ -30,15 +33,6 @@ class AboutUs(DataMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         user_context = self.get_user_context(title='О нас')
-        return dict(list(context.items()) + list(user_context.items()))
-
-
-class ContactFormView(DataMixin, FormView):
-    template_name = 'main_app/contact.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user_context = self.get_user_context(title='Контакты')
         return dict(list(context.items()) + list(user_context.items()))
 
 
@@ -89,8 +83,8 @@ class CatigoryChoise(DataMixin, ListView):
         s = Shops.objects.get(slug=self.kwargs['shop_slug'])
         c = Categories.objects.get(slug=self.kwargs['cat_slug'])
         user_context = self.get_user_context(title=f'{s.name} - {c.name}',
-                                      shop_selected=s.slug,
-                                      cat_selected=c.slug)
+                                             shop_selected=s.slug,
+                                             cat_selected=c.slug)
         return dict(list(context.items()) + list(user_context.items()))
 
 
@@ -101,7 +95,7 @@ class CatigoryChoise(DataMixin, ListView):
 class RegisterUser(DataMixin, CreateView):
     form_class = RegisterUserForm
     template_name = 'main_app/register.html'
-    success_url = reverse_lazy('home')
+    success_url = 'home'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -117,3 +111,57 @@ class RegisterUser(DataMixin, CreateView):
 def logout_user(request):
     logout(request)
     return redirect('home')
+
+
+class UserForgotPasswordView(DataMixin, SuccessMessageMixin, PasswordResetView):
+    """
+    Представление по сбросу пароля по почте
+    """
+    form_class = UserForgotPasswordForm
+    template_name = 'main_app/user_password_reset.html'
+    success_message = 'Письмо с инструкцией по восстановлению пароля отправлена на ваш email'
+    subject_template_name = 'main_app/email/password_subject_reset_mail.txt'
+    email_template_name = 'main_app/email/password_reset_mail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_context = self.get_user_context(title="Регистрация")
+        return dict(list(context.items()) + list(user_context.items()))
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+class UserPasswordResetConfirmView(DataMixin, SuccessMessageMixin, PasswordResetConfirmView):
+    """
+    Представление установки нового пароля
+    """
+    form_class = UserSetNewPasswordForm
+    template_name = 'main_app/user_password_set_new.html'
+    success_url = reverse_lazy('home')
+    success_message = 'Пароль успешно изменен. Можете авторизоваться на сайте.'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_context = self.get_user_context(title="Регистрация")
+        return dict(list(context.items()) + list(user_context.items()))
+
+
+class ContactFormView(DataMixin, SuccessMessageMixin, CreateView):
+    model = Feedback
+    form_class = ContactForm
+    success_message = 'Ваше письмо успешно отправлено администрации сайта'
+    template_name = 'main_app/contact.html'
+    success_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_context = self.get_user_context(title="Контактная форма")
+        return dict(list(context.items()) + list(user_context.items()))
+    def form_valid(self, form):
+        if form.is_valid():
+            feedback = form.save(commit=False)
+            feedback.ip_address = get_client_ip(self.request)
+            if self.request.user.is_authenticated:
+                feedback.user = self.request.user
+            send_contact_email_message(feedback.subject, feedback.email, feedback.content, feedback.ip_address, feedback.user_id)
+        return super().form_valid(form)

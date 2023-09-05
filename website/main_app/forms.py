@@ -2,6 +2,9 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+
+from .models import Feedback
 
 
 class RegisterUserForm(UserCreationForm):
@@ -23,5 +26,36 @@ class RegisterUserForm(UserCreationForm):
 
 
 class LoginUserForm(AuthenticationForm):
-    username = forms.CharField(label='Логин', widget=forms.TextInput())
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput())
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'class': 'form-input'}))
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+
+
+class UserForgotPasswordForm(PasswordResetForm):
+    """
+    Запрос на восстановление пароля
+    """
+    email = forms.EmailField(label='Email', widget=forms.EmailInput(attrs={'class': 'form-input'}))
+
+
+
+class UserSetNewPasswordForm(SetPasswordForm):
+    """
+    Изменение пароля пользователя после подтверждения
+    """
+    new_password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+    new_password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+
+
+
+class ContactForm(forms.ModelForm):
+    """
+    Форма отправки обратной связи
+    """
+    class Meta:
+        model = Feedback
+        fields = ('subject', 'email', 'content')
+
+        widgets = {
+            'subject': forms.TextInput(attrs={'class': 'subject-input'}),
+            'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
+        }
