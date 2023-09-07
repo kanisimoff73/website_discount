@@ -1,5 +1,5 @@
 from django.contrib.auth import logout, login
-from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -65,9 +65,12 @@ class ShopChoice(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        s = Shops.objects.get(slug=self.kwargs['shop_slug'])
-        user_context = self.get_user_context(title='Магазин - ' + str(s.name),
-                                      shop_selected=s.slug)
+        try:
+            s = Shops.objects.get(slug=self.kwargs['shop_slug'])
+            user_context = self.get_user_context(title='Магазин - ' + str(s.name),
+                                          shop_selected=s.slug)
+        except:
+            user_context = self.get_user_context()
         return dict(list(context.items()) + list(user_context.items()))
 
     def get_queryset(self):
@@ -80,11 +83,14 @@ class CatigoryChoise(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        s = Shops.objects.get(slug=self.kwargs['shop_slug'])
-        c = Categories.objects.get(slug=self.kwargs['cat_slug'])
-        user_context = self.get_user_context(title=f'{s.name} - {c.name}',
-                                             shop_selected=s.slug,
-                                             cat_selected=c.slug)
+        try:
+            s = Shops.objects.get(slug=self.kwargs['shop_slug'])
+            c = Categories.objects.get(slug=self.kwargs['cat_slug'])
+            user_context = self.get_user_context(title=f'{s.name} - {c.name}',
+                                                 shop_selected=s.slug,
+                                                 cat_selected=c.slug)
+        except:
+            user_context = self.get_user_context()
         return dict(list(context.items()) + list(user_context.items()))
 
 
@@ -107,7 +113,7 @@ class RegisterUser(DataMixin, CreateView):
         login(self.request, user)
         return redirect('home')
 
-
+@login_required
 def logout_user(request):
     logout(request)
     return redirect('home')

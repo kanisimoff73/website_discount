@@ -46,7 +46,6 @@ class UserSetNewPasswordForm(SetPasswordForm):
     new_password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput(attrs={'class': 'form-input'}))
 
 
-
 class ContactForm(forms.ModelForm):
     """
     Форма отправки обратной связи

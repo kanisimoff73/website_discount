@@ -191,3 +191,11 @@ a.botton:hover {
 .messages {
     background-color: green;
 }
+
+.logo-vk {
+    display: block;
+    text-align: center;
+    max-width: 30px;
+    max-height: 30px;
+    float: right;
+}

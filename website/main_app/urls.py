@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
 
 
@@ -13,4 +13,5 @@ urlpatterns = [
     path('set-new-password/<uidb64>/<token>/', UserPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('<slug:shop_slug>/', ShopChoice.as_view(), name='shop'),
     path('<slug:shop_slug>/<slug:cat_slug>', CatigoryChoise.as_view(), name='cat'),
+    path('', include('social_django.urls', namespace='social')),
 ]
