@@ -10,6 +10,14 @@ menu = [
     # {'title': 'Регистрация', 'url_name': 'register'},
 ]
 
+queryset = Shops.objects.all()
+
+categories_by_shop = []
+
+for shop in queryset:
+    categories = Categories.objects.filter(products__shop=shop.pk).distinct()
+    categories_by_shop.append((shop, categories))
+
 
 class DataMixin:
     model = Shops
@@ -17,19 +25,5 @@ class DataMixin:
     def get_main_context(self, **kwargs):
         context = kwargs
         context["menu"] = menu
-        return context
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        queryset = Shops.objects.all()
-
-        categories_by_shop = []
-
-        for shop in queryset:
-            categories = Categories.objects.filter(products__shop=shop.pk).distinct()
-            categories_by_shop.append((shop, categories))
-
         context["categories_by_shop"] = categories_by_shop
-
-        main_menu = self.get_main_context()
-        return dict(list(context.items()) + list(main_menu.items()))
+        return context
