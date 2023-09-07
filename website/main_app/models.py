@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 
 class Shops(models.Model):
@@ -12,6 +13,8 @@ class Shops(models.Model):
 
     # class Meta:
     #     db_table = 'shops'
+    def get_absolute_url(self):
+        return reverse("shop", kwargs={"shop_slug": self.slug})
 
 class Categories(models.Model):
     """

@@ -14,6 +14,16 @@ menu_is_authenticated = [
     {'title': 'Обратная связь', 'url_name': 'contact'},
     {'title': 'Выйти', 'url_name': 'logout'},
 ]
+#Версия Кирилла
+# queryset = Shops.objects.all()
+#
+# side_bar = []
+#
+# for shop in queryset:
+#     categories = Categories.objects.filter(products__shop=shop.pk).distinct()
+#     side_bar.append((shop, categories))
+
+#Версия Дмитрия
 side_bar = []
 sql_res = Products.objects.select_related('cat', 'shop').distinct().values('shop__name', 'shop__slug', 'cat__name', 'cat__slug').order_by('shop__name')
 

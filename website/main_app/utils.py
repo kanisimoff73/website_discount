@@ -6,11 +6,14 @@ from ._menu  import menu_for_not_authenticated, menu_for_authenticated
 
 
 
+
+
+
 class DataMixin:
     """
     Формирование контекста для меню и боковой панели
     """
-    paginate_by = 4
+    # paginate_by = 4
 
     def get_user_context(self, **kwargs):
         context = kwargs

@@ -15,3 +15,4 @@ urlpatterns = [
     path('<slug:shop_slug>/<slug:cat_slug>', CatigoryChoise.as_view(), name='cat'),
     path('', include('social_django.urls', namespace='social')),
 ]
+

@@ -74,7 +74,7 @@ class ShopChoice(DataMixin, ListView):
         return dict(list(context.items()) + list(user_context.items()))
 
     def get_queryset(self):
-        return Products.objects.filter(shop__slug=self.kwargs['shop_slug']).select_related('shop').order_by('previous_price')
+        return Products.objects.filter(shop__slug=self.kwargs['shop_slug']).select_related('shop', 'cat').order_by('previous_price')
 
 class CatigoryChoise(DataMixin, ListView):
     model = Products
