@@ -2,17 +2,25 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+/*    background-image: url('/static/main_app/images/ass_we_can.jpg');
+    background-size: no-repeat;
+    background-position: center;
+    background-position: 50% 15%*/
 }
 header {
     background-color: #333;
     color: white;
-    padding: 10px;
+    padding: 40px;
     text-align: center;
+    background-image: url('/static/main_app/images/stack.jpg');
+    background-size: 30%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 nav {	/* для менюшки */
     display: flex;
     justify-content: space-around;
-    background-color: #444;
+    background-color: none;
     padding: 0px;
 	
 }
@@ -20,7 +28,7 @@ nav a {		/* и это */
     color: white;
     text-decoration: none;
 }
-footer {	/* не фиксируется, по идее должно через параметр position: absolute; */
+#footer {	/* не фиксируется, по идее должно через параметр position: absolute; */
     background-color: #333;
     color: white;
     text-align: left;
@@ -42,12 +50,9 @@ footer {	/* не фиксируется, по идее должно через �
     padding: 20px;
 }
 .content {
-    /* margin-left: 20%; */
-    /* padding: 20px; */
-	/* flex: 1 0 auto; */
-	/* text-align: center; */
-	padding: 0px 20px 20px 600px;
-	width: 50%;
+    margin-left: 20%; 
+    padding: 20px; 
+	flex: 1 0 auto; 
 	box-sizing: border-box;
 }
 ul.mainmenu {	/* настройка менюшки сверху */
@@ -70,4 +75,127 @@ ul.mainmenu li a {		/* хз, ни на что не влияет */
 }
 ul.mainmenu li a:hover {	/* то же, что и предыдущее */
     color: #FDA83D;
+}
+
+.list-pages {
+    text-align: center;
+    margin: 0 0 20px 0;
+}
+.list-pages ul {
+    margin: 20px 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+.list-pages ul li {
+    display: inline-block;
+    margin: 0 20px 0 0;
+}
+.list-pages a {
+    color: #000;
+    font-size: 24px;
+    text-decoration: none;
+}
+.list-pages .page-num, .page-num-selected {
+    display: inline-block;
+    width: 60px;
+    height: 44px;
+    padding: 16px 0 0 0;
+    border: 1px solid #d0d0d0;
+    border-radius: 30px;
+}
+.list-pages .page-num:hover {
+    box-shadow: 3px 3px 1px #d0d0d0; 
+}
+.list-pages .page-num-selected {
+    border: none;
+    color: #000;
+    font-size: 20px;
+}
+.list-pages .page-num-selected:hover {
+    box-shadow: none; 
+}
+
+.form-input {
+    width: 350px
+    font-size: 16px;
+}
+
+.subject-input {
+    inline-size: 400px;
+    writing-mode: horizontal-tb;
+}
+
+.register-form-label {
+    display: inline-block;
+    min-width: 150px;
+    vertical-align: top;
+}
+
+.login-form-label {
+    display: inline-block;
+    min-width: 65px;
+    vertical-align: top;
+}
+
+.contact-form-label {
+    display: inline-block;
+    min-width: 170px;
+    vertical-align: top;
+}
+
+div.form-error ul {
+    list-style: none;
+    padding: 0;
+    color: #CC0000;
+}
+
+.form-button {
+    min-width: 200px;
+    font-size: 16px;
+}
+
+.botton {
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    width:120px;
+    font-weight: bold;
+    margin:5px auto;
+    text-align: center;
+    padding: 1px 5px;
+    color: black;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+    -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2), inset 0 0 6px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2), inset 0 0 6px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2), inset 0 0 6px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+    background: #f6f6f6;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f6f6f6), to(#d4d4d4));
+    background: -webkit-linear-gradient(#f6f6f6, #d4d4d4);
+    background-image: -moz-linear-gradient(top, #f6f6f6, #d4d4d4);
+    background-image: -moz-gradient(top, #f6f6f6, #d4d4d4);
+    border: 1px solid #a1a1a1;
+}
+
+a.botton:hover {
+    background: #f6f6f6;
+}
+
+.botton.contact-send {
+    margin:5px 5px 5px 500px;
+}
+
+.messages {
+    background-color: green;
+}
+
+.logo-vk {
+    display: block;
+    text-align: center;
+    max-width: 30px;
+    max-height: 30px;
+    float: right;
 }
