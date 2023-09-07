@@ -10,6 +10,9 @@ class Shops(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse("shops", kwargs={"shop_slug": self.slug})
+
 
 class Categories(models.Model):
     objects = None
@@ -18,9 +21,6 @@ class Categories(models.Model):
 
     def __str__(self):
         return self.name
-
-    def get_absolute_url(self):
-        return reverse("products", kwargs={"cat_slug": self.slug})
 
 
 class Products(models.Model):
