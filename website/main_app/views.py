@@ -15,7 +15,7 @@ from .utils import *
 
 class MainHomePage(DataMixin, ListView):
     model = Products
-    template_name = "main_app/index.html"
+    template_name = "main_app/content.html"
     context_object_name = 'products'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -60,7 +60,7 @@ class RegisterUser(DataMixin, CreateView):
 
 class ShopChoice(DataMixin, ListView):
     model = Products
-    template_name = 'main_app/index.html'
+    template_name = 'main_app/content.html'
     context_object_name = 'products'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -78,7 +78,7 @@ class ShopChoice(DataMixin, ListView):
 
 class CatigoryChoise(DataMixin, ListView):
     model = Products
-    template_name = 'main_app/index.html'
+    template_name = 'main_app/content.html'
     context_object_name = 'products'
 
     def get_context_data(self, *, object_list=None, **kwargs):
