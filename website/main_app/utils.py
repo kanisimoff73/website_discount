@@ -6,8 +6,6 @@ menu = [
     {'title': 'Главная', 'url_name': 'home'},
     {'title': 'О нас', 'url_name': 'about'},
     {'title': 'Контакты', 'url_name': 'contact'},
-    # {'title': 'Войти', 'url_name': 'login'},
-    # {'title': 'Регистрация', 'url_name': 'register'},
 ]
 
 queryset = Shops.objects.all()
@@ -20,6 +18,7 @@ for shop in queryset:
 
 
 class DataMixin:
+    paginate_by = 20
     model = Shops
 
     def get_main_context(self, **kwargs):
@@ -27,3 +26,9 @@ class DataMixin:
         context["menu"] = menu
         context["categories_by_shop"] = categories_by_shop
         return context
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    ip = x_forwarded_for.split(',')[0] if x_forwarded_for else request.META.get('REMOTE_ADDR')
+    return ip
