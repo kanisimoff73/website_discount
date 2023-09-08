@@ -25,40 +25,41 @@
 					{% if not request.user.is_authenticated %}
 	        			<a href="/login/vk-oauth2/"><img src="\static\main_app\images\vk-logo.png" class="logo-vk" data-toggle="tooltip" title="{% trans 'Login via VKontakte' %}"></a>
 	    			{% endif %}
-					<div class="clear"></div>
 				</div>
 			{% endblock mainmenu %}
 		</nav>
 	</header>
 
+	<div class="side-cont">
 		<!-- Sidebar -->
-   {% block sidebar %}
-	<div class="sidebar">
-		<ul>
-			<h2>Категории</h2>
-			{% for shop, categories in side_bar %}
-				<li><h3><a href="{{ shop.get_absolute_url }}">{{shop.name}}</a></h3></li>
-				<ul>
-					{% for category in categories %}
-						{% if category.slug == cat_selected and shop.name == shop_selected %}
-							<li class="selected">{{category.name}}</li>
-						{% else %}
-							<li><a href="{% url 'cat' shop_slug=shop.slug cat_slug=category.slug %}">{{category.name}}</a></li>
-						{% endif %}
-					{% endfor %}
-				</ul>
-			{% endfor %}
-		</ul>		
+	   {% block sidebar %}
+		<div class="sidebar">
+			<ul>
+				<h2>Категории</h2>
+				{% for shop, categories in side_bar %}
+					<li><h3><a href="{{ shop.get_absolute_url }}">{{shop.name}}</a></h3></li>
+					<ul>
+						{% for category in categories %}
+							{% if category.slug == cat_selected and shop.name == shop_selected %}
+								<li class="selected">{{category.name}}</li>
+							{% else %}
+								<li><a href="{% url 'cat' shop_slug=shop.slug cat_slug=category.slug %}">{{category.name}}</a></li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				{% endfor %}
+			</ul>		
+		</div>
+		{% endblock sidebar %}
+		<!-- end Sidebar -->
+		
+		<!-- Block content -->
+		<div class="content">
+			{% block content %}
+			{% endblock %}
+		</div>
+		<!-- end Block content -->
 	</div>
-	{% endblock sidebar %}
-	<!-- end Sidebar -->
-	
-	<!-- Block content -->
-	<div class="content">
-		{% block content %}
-		{% endblock %}
-	</div>
-	<!-- end Block content -->
 
 	<footer>
 		<div id="footer">
