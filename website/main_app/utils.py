@@ -13,7 +13,7 @@ class DataMixin:
     """
     Формирование контекста для меню и боковой панели
     """
-    paginate_by = 3
+    paginate_by = 10
 
     def get_user_context(self, **kwargs):
         context = kwargs

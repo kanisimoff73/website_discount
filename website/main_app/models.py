@@ -16,7 +16,7 @@ class Shops(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("shops", kwargs={"shop_slug": self.slug})
+        return reverse("shop", kwargs={"shop_slug": self.slug})
 
     class Meta:
         verbose_name_plural = "Магазины"
