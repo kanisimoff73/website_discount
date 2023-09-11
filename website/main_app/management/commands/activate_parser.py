@@ -23,6 +23,7 @@ class Command(BaseCommand):
 
         refresh_tables() # Обнуляем данные в таблицах
         #Парсим наши данные
+
         data_dir = join(BASE_DIR, 'main_app\static\main_app\data')
         photo_dir = '\static\main_app\data'
         shops_id = {}
