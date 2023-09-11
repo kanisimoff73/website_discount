@@ -12,7 +12,7 @@ from os.path import exists
 from unidecode import unidecode
 from ._parser_command import refresh_tables
 
-
+no_photo = '\static\main_app\images\lily-grasso-karlach.jpg'
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
@@ -24,6 +24,7 @@ class Command(BaseCommand):
         refresh_tables() # Обнуляем данные в таблицах
         #Парсим наши данные
         data_dir = join(BASE_DIR, 'main_app\static\main_app\data')
+        photo_dir = '\static\main_app\data'
         shops_id = {}
         categories_id = {}
         shop_id = 1
@@ -63,17 +64,18 @@ class Command(BaseCommand):
                             photo = item.find('picture').find('img').get('src')[2:]
                             if photo:
                                 path_to_photo = join(data_dir, shop_name, cat, photo)
+                                path_to_photo_for_site = join(photo_dir, shop_name, cat, photo)
                                 if not exists(path_to_photo):
-                                    path_to_photo = 'путь не найден'
+                                    path_to_photo_for_site = no_photo
                             else:
-                                path_to_photo = 'путь не найден'
+                                path_to_photo_for_site = no_photo
                             previous_price = int(
                                 item.find_next(class_='product-buy__price_active').next_element[:-1].rstrip().replace(
                                     ' ', ''))
                             link = item.find(class_='catalog-product__name').get('href')
                             Products.objects.create(
                                 name=name,
-                                photo=path_to_photo,
+                                photo=path_to_photo_for_site,
                                 previous_price=previous_price,
                                 link=link,
                                 cat_id=cat_id_,
@@ -94,10 +96,11 @@ class Command(BaseCommand):
                                     photo = row.find_previous('img').get('src')[2:]
                                     if photo:
                                         path_to_photo = join(data_dir, shop_name, cat, photo)
+                                        path_to_photo_for_site = join(photo_dir, shop_name, cat, photo)
                                         if not exists(path_to_photo):
-                                            path_to_photo = 'путь не найден'
+                                            path_to_photo_for_site = no_photo
                                     else:
-                                        path_to_photo = 'путь не найден'
+                                        path_to_photo_for_site = no_photo
                                     price = int(''.join(map(str, list(
                                         i for i in (unidecode(row.find_next(class_='price__main-value').text)) if
                                         i.isdigit()))))
@@ -106,7 +109,7 @@ class Command(BaseCommand):
                                     link = row.get('href')
                                     Products.objects.create(
                                         name=name,
-                                        photo=path_to_photo,
+                                        photo=path_to_photo_for_site,
                                         previous_price=price,
                                         link=link,
                                         cat_id=cat_id_,
@@ -117,10 +120,11 @@ class Command(BaseCommand):
                                 photo = item.find('picture').find('img').get('src')[2:]
                                 if photo:
                                     path_to_photo = join(data_dir, shop_name, cat, photo)
+                                    path_to_photo_for_site = join(photo_dir, shop_name, cat, photo)
                                     if not exists(path_to_photo):
-                                        path_to_photo = 'путь не найден'
+                                        path_to_photo_for_site = no_photo
                                 else:
-                                    path_to_photo = 'путь не найден'
+                                    path_to_photo_for_site = no_photo
                                 price = item.find('span', {'class': 'price__main-value'})
                                 if price:
                                     price = int(
@@ -130,7 +134,7 @@ class Command(BaseCommand):
                                 link = item.find(class_='product-title__text').get('href')
                                 Products.objects.create(
                                     name=name,
-                                    photo=path_to_photo,
+                                    photo=path_to_photo_for_site,
                                     previous_price=price,
                                     link=link,
                                     cat_id=cat_id_,
@@ -145,17 +149,18 @@ class Command(BaseCommand):
                             photo = item.find("a", class_="Bm").next_element.get("src")[2:]
                             if photo:
                                 path_to_photo = join(data_dir, shop_name, cat, photo)
+                                path_to_photo_for_site = join(photo_dir, shop_name, cat, photo)
                                 if not exists(path_to_photo):
-                                    path_to_photo = 'путь не найден'
+                                    path_to_photo_for_site = no_photo
                             else:
-                                path_to_photo = 'путь не найден'
+                                path_to_photo_for_site = no_photo
                             price = int("".join(
                                 map(str, list(
                                     i for i in (unidecode(item.find("span", class_="ZG gH").text)) if i.isdigit()))))
                             link = item.find("div", class_="lD nD").find("a").get("href")
                             Products.objects.create(
                                 name=name,
-                                photo=path_to_photo,
+                                photo=path_to_photo_for_site,
                                 previous_price=price,
                                 link=link,
                                 cat_id=cat_id_,
@@ -169,16 +174,17 @@ class Command(BaseCommand):
                                 item.find("div", class_="app-catalog-1tp0ino e1an64qs0").find("a").text.split(",")[:-1])
                             photo = item.find("div", class_="app-catalog-lxji0k e153n9o30")
                             if photo is None:
-                                photo = "фото не найдено"
+                                photo = no_photo
                             else:
                                 photo = item.find("div", class_="app-catalog-lxji0k e153n9o30").next_element.get("src")[
                                         2:]
                             if photo:
                                 path_to_photo = join(data_dir, shop_name, cat, photo)
+                                path_to_photo_for_site = join(photo_dir, shop_name, cat, photo)
                                 if not exists(path_to_photo):
-                                    path_to_photo = 'путь не найден'
+                                    path_to_photo_for_site = no_photo
                             else:
-                                path_to_photo = 'путь не найден'
+                                path_to_photo_for_site = no_photo
                             price = int("".join(
                                 map(str, list(i for i in (unidecode(item.find("span", class_="e1j9birj0 e106ikdt0 "
                                                                                              "app-catalog-j8h82j "
@@ -187,7 +193,7 @@ class Command(BaseCommand):
                             link = item.find("div", class_="app-catalog-1tp0ino e1an64qs0").find("a").get("href")
                             Products.objects.create(
                                 name=name,
-                                photo=path_to_photo,
+                                photo=path_to_photo_for_site,
                                 previous_price=price,
                                 link=link,
                                 cat_id=cat_id_,
