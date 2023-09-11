@@ -28,8 +28,7 @@ class FeedbackAdmin(admin.ModelAdmin):
     list_display = ('email', 'ip_address', 'user')
     list_display_links = ('email', 'ip_address')
 
-
-# Register your models here.
+    
 admin.site.register(Shops, ShopsAdmin)
 admin.site.register(Categories, CategoriesAdmin)
 admin.site.register(Products, ProductsAdmin)

@@ -4,9 +4,13 @@ from django.urls import reverse
 
 
 class Shops(models.Model):
+    """
+    Модель магазинов
+    """
     objects = None
     name = models.CharField(max_length=20, db_index=True, verbose_name="Магазины")
     slug = models.SlugField(max_length=200, unique=True, db_index=True, verbose_name="URL")
+
 
     def __str__(self):
         return self.name
@@ -19,6 +23,9 @@ class Shops(models.Model):
 
 
 class Categories(models.Model):
+    """
+    Модель категорий
+    """
     objects = None
     name = models.CharField(max_length=20, db_index=True, verbose_name="Категория")
     slug = models.SlugField(max_length=200, unique=True, db_index=True, verbose_name="URL")
@@ -31,6 +38,9 @@ class Categories(models.Model):
 
 
 class Products(models.Model):
+    """
+    Модель товаров
+    """
     objects = None
     name = models.TextField(blank=True, db_index=True, verbose_name="Название")
     photo = models.TextField(verbose_name="Фото")
