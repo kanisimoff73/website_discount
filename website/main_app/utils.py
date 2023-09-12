@@ -1,6 +1,7 @@
 from django.db.models import Count
 from django.core.cache import cache
 
+from .forms import SearchStringForm
 from .models import *
 from ._menu  import menu_for_not_authenticated, menu_for_authenticated
 
@@ -27,6 +28,8 @@ class DataMixin:
             context['shop_selected'] = 0
         if 'cat_selected' not in context:
             context['cat_selected'] = 0
+        search_field = SearchStringForm(self.request.GET or None)
+        context['search_field'] = search_field
         return context
 
 

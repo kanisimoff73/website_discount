@@ -4,10 +4,7 @@ from os.path import isfile, join
 from django.core.management.base import BaseCommand
 from ...models import *
 from website.settings import BASE_DIR
-from django.core.management import call_command
-from django.apps import apps
-import psycopg2
-from transliterate import translit, get_available_language_codes
+from transliterate import translit
 from os.path import exists
 from unidecode import unidecode
 from ._parser_command import refresh_tables

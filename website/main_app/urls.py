@@ -1,9 +1,11 @@
 from django.urls import path, include
+
 from .views import *
 
 
 urlpatterns = [
     path('', MainHomePage.as_view(), name='home'),
+    path('search/', SearchStringView.as_view(), name='search'),
     path('about/', AboutUs.as_view(), name='about'),
     path('contact/', ContactFormView.as_view(), name='contact'),
     path('login/', LoginUser.as_view(), name='login'),

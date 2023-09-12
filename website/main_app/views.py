@@ -1,10 +1,11 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
-from django.views.generic import CreateView, FormView, ListView
+from django.views.generic import CreateView, ListView
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 
 from .email import send_contact_email_message
@@ -47,15 +48,6 @@ class LoginUser(DataMixin, LoginView):
 
     def get_success_url(self):
         return reverse_lazy('home')
-
-
-class RegisterUser(DataMixin, CreateView):
-    template_name = 'main_app/register.html'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user_context = self.get_user_context(title='Регистрация')
-        return dict(list(context.items()) + list(user_context.items()))
 
 
 class ShopChoice(DataMixin, ListView):
@@ -137,6 +129,7 @@ class UserForgotPasswordView(DataMixin, SuccessMessageMixin, PasswordResetView):
     def get_success_url(self):
         return reverse_lazy('home')
 
+
 class UserPasswordResetConfirmView(DataMixin, SuccessMessageMixin, PasswordResetConfirmView):
     """
     Представление установки нового пароля
@@ -171,3 +164,27 @@ class ContactFormView(DataMixin, SuccessMessageMixin, CreateView):
                 feedback.user = self.request.user
             send_contact_email_message(feedback.subject, feedback.email, feedback.content, feedback.ip_address, feedback.user_id)
         return super().form_valid(form)
+
+#Можно просто кварисет определить в MainHomePage и ен делать эту view, но не знаю как лучше
+class SearchStringView(DataMixin, ListView):
+    model = Products
+    template_name = "main_app/content.html"
+    context_object_name = 'products'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title=f"Результат поиска: {self.request.GET.get('search')}")
+        return dict(list(context.items()) + list(c_def.items()))
+
+    def get_queryset(self):
+        search = None
+        queryset = Products.objects.select_related('cat', 'shop').order_by('previous_price')
+        form = SearchStringForm(self.request.GET or None)
+        if form.is_valid():
+            search = form.cleaned_data.get('search')
+        if search:
+            queryset_name = queryset.filter(name__icontains=search)
+            if queryset_name:
+                return queryset_name
+            queryset = queryset.filter(cat__name__icontains=search)
+        return queryset
