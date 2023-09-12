@@ -58,3 +58,8 @@ class ContactForm(forms.ModelForm):
             'subject': forms.TextInput(attrs={'class': 'subject-input'}),
             'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
         }
+
+
+class SearchStringForm(forms.Form):
+    search = forms.CharField(label='поиск', widget=forms.TextInput(attrs={'class': 'search-field',
+                                                                          'placeholder': 'введите запрос'}))

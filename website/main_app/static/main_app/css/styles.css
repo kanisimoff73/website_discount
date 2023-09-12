@@ -75,7 +75,7 @@ ul.mainmenu li a {
 	text-decoration: none;
 }
 ul.mainmenu li a:hover {
-	color: #333;
+	color: #00BFFF;
 }
 /* конец блока меню */
 
@@ -172,10 +172,35 @@ img.product-photo {
 }
 
 
-
-
-
 /* конец блока контента*/
+/* блок поиска*/
+.search {
+  display: inline-flex;
+  border: 1px solid black;
+  border-radius: 30px;
+  padding: 10px;
+  margin-left: 50px;
+}
+
+.search-field {
+  width: 300px;
+  border: 0; 
+}
+
+.search-field:focus {
+  outline: none;
+}
+
+.search-button {
+	width: 50px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+/*конец блока поиска*/
 /* блок подвала */
 #footer {
 	box-sizing: border-box;
@@ -246,7 +271,7 @@ div.form-error ul {
     font-size: 16px;
 }
 
-.botton {
+.button {
     font-size: 14px;
     text-decoration: none;
     cursor: pointer;
@@ -272,11 +297,11 @@ div.form-error ul {
     border: 1px solid #a1a1a1;
 }
 
-a.botton:hover {
+a.button:hover {
     background: #f6f6f6;
 }
 
-.botton.contact-send {
+.button.contact-send {
     margin:5px 5px 5px 500px;
 }
 
