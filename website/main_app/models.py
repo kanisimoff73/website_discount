@@ -49,6 +49,8 @@ class Products(models.Model):
     cat = models.ForeignKey("Categories", on_delete=models.CASCADE, verbose_name="Категории")
     shop = models.ForeignKey("Shops", on_delete=models.CASCADE, verbose_name="Магазины")
 
+    def get_absolute_url(self):
+        return reverse('review', kwargs={'pk': self.pk})
     def __str__(self):
         return self.name
 
@@ -75,3 +77,19 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f'Вам письмо от {self.email}'
+
+class ReviewModel(models.Model):
+    user_id = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE, null=True, blank=True)
+    product_id = models.ForeignKey(Products, verbose_name='Продукт', on_delete=models.CASCADE)
+    content = models.TextField(verbose_name='Текст отзыва', null=True)
+    Rating = models.IntegerChoices('Rating', '1 2 3 4 5')
+    rating = models.IntegerField(choices=Rating.choices, verbose_name='Рейтинг')
+    date = models.DateField(verbose_name='Дата отзыва', auto_now_add=True)
+
+    def get_absolute_url(self):
+        return reverse('review', args={'product_id': self.product_id})
+    class Meta:
+        verbose_name = 'Отзывы'
+        verbose_name_plural = "Отзывы"
+        db_table = 'review'
+

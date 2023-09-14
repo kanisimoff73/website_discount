@@ -4,7 +4,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 
-from .models import Feedback
+from .models import Feedback, ReviewModel
 
 
 class RegisterUserForm(UserCreationForm):
@@ -63,3 +63,17 @@ class ContactForm(forms.ModelForm):
 class SearchStringForm(forms.Form):
     search = forms.CharField(label='поиск', widget=forms.TextInput(attrs={'class': 'search-field',
                                                                           'placeholder': 'введите запрос'}))
+
+
+class ReviewForm(forms.ModelForm):
+    """
+    Форма для комментария
+    """
+    class Meta:
+        model = ReviewModel
+        fields = ('content', 'rating')
+
+        widgets = {
+            'content': forms.Textarea(attrs={'cols': 60, 'rows': 10, 'class': 'review-content'}),
+            'rating': forms.Select(attrs={'class': 'review-choice'})
+        }
