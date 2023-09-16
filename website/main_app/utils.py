@@ -1,6 +1,6 @@
 from .forms import SearchStringForm
 from .models import *
-from ._menu  import menu_guest, menu_user
+from ._menu  import menu_user
 
 
 
@@ -15,10 +15,7 @@ class DataMixin:
 
     def get_user_context(self, **kwargs):
         context = kwargs
-        if self.request.user.is_authenticated:
-            user_menu, user_side_bar = menu_user()
-        else:
-            user_menu, user_side_bar = menu_guest()
+        user_menu, user_side_bar = menu_user(self)
         context["menu"] = user_menu
         context['side_bar'] = user_side_bar
         if 'shop_selected' not in context:

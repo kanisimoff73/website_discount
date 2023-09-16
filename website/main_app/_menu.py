@@ -1,7 +1,7 @@
 from .models import *
 from django.core.cache import cache
 
-menu_for_guest = [
+menu_for_user = [
     {'title': 'Главная', 'url_name': 'home'},
     {'title': 'О нас', 'url_name': 'about'},
     {'title': 'Обратная связь', 'url_name': 'contact'},
@@ -9,12 +9,6 @@ menu_for_guest = [
     {'title': 'Регистрация', 'url_name': 'register'},
 ]
 
-menu_for_user = [
-    {'title': 'Главная', 'url_name': 'home'},
-    {'title': 'О нас', 'url_name': 'about'},
-    {'title': 'Обратная связь', 'url_name': 'contact'},
-    {'title': 'Выйти', 'url_name': 'logout'},
-]
 #Версия Кирилла
 queryset = Shops.objects.all()
 side_bar = cache.get('side_bar')
@@ -43,12 +37,11 @@ if not side_bar:
 #                              {'cat__name': raw_dictionary['cat__name'], 'cat__slug': raw_dictionary['cat__slug']}
 #                          ]})
 
-def menu_user():
-    user_side_bar = side_bar.copy()
+def menu_user(self):
     user_menu = menu_for_user.copy()
+    if self.request.user.is_authenticated:
+        user_menu[-2:] = [{'title': 'Выйти', 'url_name': 'logout'}]
+    user_side_bar = side_bar.copy()
     return user_menu, user_side_bar
 
-def menu_guest():
-    user_side_bar = side_bar.copy()
-    user_menu = menu_for_guest.copy()
-    return user_menu, user_side_bar
+
