@@ -8,10 +8,12 @@ from transliterate import translit
 from os.path import exists
 from unidecode import unidecode
 from ._parser_command import refresh_tables
+from pathlib import Path
 
-no_photo = '\static\main_app\images\lily-grasso-karlach.jpg'
+no_photo = Path('\static\main_app\images\\no-image.jpg')
+
+
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
         """
         Удаление созданных нами таблиц и обратное их добавление,
@@ -20,7 +22,6 @@ class Command(BaseCommand):
 
         refresh_tables() # Обнуляем данные в таблицах
         #Парсим наши данные
-
         data_dir = join(BASE_DIR, 'main_app\static\main_app\data')
         photo_dir = '\static\main_app\data'
         shops_id = {}
