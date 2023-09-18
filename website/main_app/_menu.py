@@ -1,6 +1,7 @@
 from .models import *
+from django.core.cache import cache
 
-menu_not_authenticated = [
+menu_for_user = [
     {'title': 'Главная', 'url_name': 'home'},
     {'title': 'О нас', 'url_name': 'about'},
     {'title': 'Обратная связь', 'url_name': 'contact'},
@@ -8,20 +9,16 @@ menu_not_authenticated = [
     {'title': 'Регистрация', 'url_name': 'register'},
 ]
 
-menu_is_authenticated = [
-    {'title': 'Главная', 'url_name': 'home'},
-    {'title': 'О нас', 'url_name': 'about'},
-    {'title': 'Обратная связь', 'url_name': 'contact'},
-    {'title': 'Выйти', 'url_name': 'logout'},
-]
 #Версия Кирилла
 queryset = Shops.objects.all()
+side_bar = cache.get('side_bar')
+if not side_bar:
+    side_bar = []
 
-side_bar = []
-
-for shop in queryset:
-    categories = Categories.objects.filter(products__shop=shop.pk).distinct()
-    side_bar.append((shop, categories))
+    for shop in queryset:
+        categories = Categories.objects.filter(products__shop=shop.pk).distinct()
+        side_bar.append((shop, categories))
+    cache.set('side_bar', side_bar, 60)
 
 #Версия Дмитрия
 # side_bar = []
@@ -40,12 +37,11 @@ for shop in queryset:
 #                              {'cat__name': raw_dictionary['cat__name'], 'cat__slug': raw_dictionary['cat__slug']}
 #                          ]})
 
-def menu_for_authenticated():
+def menu_user(self):
+    user_menu = menu_for_user.copy()
+    if self.request.user.is_authenticated:
+        user_menu[-2:] = [{'title': 'Выйти', 'url_name': 'logout'}]
     user_side_bar = side_bar.copy()
-    user_menu = menu_is_authenticated.copy()
     return user_menu, user_side_bar
 
-def menu_for_not_authenticated():
-    user_side_bar = side_bar.copy()
-    user_menu = menu_not_authenticated.copy()
-    return user_menu, user_side_bar
+

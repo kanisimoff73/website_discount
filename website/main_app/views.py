@@ -1,15 +1,15 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
 from django.views.generic import CreateView, ListView
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
+from django.views.generic.edit import FormMixin
 
 from .email import send_contact_email_message
-from .forms import RegisterUserForm, LoginUserForm, ContactForm, UserForgotPasswordForm, UserSetNewPasswordForm
+from .forms import RegisterUserForm, LoginUserForm, ContactForm, UserForgotPasswordForm, UserSetNewPasswordForm, ReviewForm
 from .models import *
 from .utils import *
 
@@ -156,6 +156,7 @@ class ContactFormView(DataMixin, SuccessMessageMixin, CreateView):
         context = super().get_context_data(**kwargs)
         user_context = self.get_user_context(title="Контактная форма")
         return dict(list(context.items()) + list(user_context.items()))
+
     def form_valid(self, form):
         if form.is_valid():
             feedback = form.save(commit=False)
@@ -188,3 +189,33 @@ class SearchStringView(DataMixin, ListView):
                 return queryset_name
             queryset = queryset.filter(cat__name__icontains=search)
         return queryset
+
+
+class ProductReview(DataMixin, ListView, CreateView):
+    object = None
+    model = ReviewModel
+    template_name = 'main_app/review_product.html'
+    context_object_name = 'review'
+    form_class = ReviewForm
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = Products.objects.get(id=self.kwargs['pk'])
+        user_context = self.get_user_context(title=f"{product.name}",
+                                             product=product)
+        return dict(list(context.items()) + list(user_context.items()))
+
+    def get_queryset(self):
+        return self.model.objects.filter(product_id=self.kwargs['pk']).order_by('date')
+
+    def form_valid(self, form):
+        if form.is_valid():
+            date_review = form.save(commit=False)
+            date_review.product_id_id = self.kwargs['pk']
+            if self.request.user.is_authenticated:
+                date_review.user_id = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('review', kwargs={'pk': self.kwargs['pk']})
+
