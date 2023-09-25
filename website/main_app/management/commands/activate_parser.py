@@ -10,6 +10,7 @@ from unidecode import unidecode
 from ._parser_command import refresh_tables
 from pathlib import Path
 
+
 no_photo = Path('\static\main_app\images\\no-image.jpg')
 
 

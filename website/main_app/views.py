@@ -6,7 +6,6 @@ from django.urls import reverse_lazy
 
 from django.views.generic import CreateView, ListView
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
-from django.views.generic.edit import FormMixin
 
 from .email import send_contact_email_message
 from .forms import RegisterUserForm, LoginUserForm, ContactForm, UserForgotPasswordForm, UserSetNewPasswordForm, ReviewForm
