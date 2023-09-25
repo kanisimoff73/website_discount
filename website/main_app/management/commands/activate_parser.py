@@ -3,7 +3,7 @@ from os import listdir
 from os.path import isfile, join
 from django.core.management.base import BaseCommand
 from ...models import *
-from website.settings import BASE_DIR
+from website.website.settings import BASE_DIR
 from transliterate import translit
 from os.path import exists
 from unidecode import unidecode
