@@ -12,6 +12,7 @@ from .forms import RegisterUserForm, LoginUserForm, ContactForm, UserForgotPassw
 from .models import *
 from .utils import *
 
+
 class MainHomePage(DataMixin, ListView):
     model = Products
     template_name = "main_app/content.html"
@@ -164,11 +165,13 @@ class ContactFormView(DataMixin, SuccessMessageMixin, CreateView):
             send_contact_email_message(feedback.subject, feedback.email, feedback.content, feedback.ip_address, feedback.user_id)
         return super().form_valid(form)
 
-#Можно просто кварисет определить в MainHomePage и ен делать эту view, но не знаю как лучше
+
+# Можно просто кварисет определить в MainHomePage и ен делать эту view, но не знаю как лучше
 class SearchStringView(DataMixin, ListView):
     model = Products
     template_name = "main_app/content.html"
     context_object_name = 'products'
+
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title=f"Результат поиска: {self.request.GET.get('search')}")
@@ -203,7 +206,7 @@ class ProductReview(DataMixin, ListView, CreateView):
         return dict(list(context.items()) + list(user_context.items()))
 
     def get_queryset(self):
-        return self.model.objects.filter(product_id=self.kwargs['pk']).order_by('date')
+        return self.model.objects.filter(product_id=self.kwargs['pk']).order_by('-date')
 
     def form_valid(self, form):
         if form.is_valid():
