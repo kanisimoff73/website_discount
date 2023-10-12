@@ -1,32 +1,11 @@
 version: '3.8'
 
-x-environment-defaults: &environment-defaults
-  DEBUG: 'False'
-  DB_NAME: 'discount_dbb'
-  DB_USER: 'psuser'
-  DB_PASSWORD: '228322'
-  DB_HOST: 'postgres-db'
-  DB_PORT: '5432'
-  SECRET_KEY: 'django-insecure-p6rw)num(uqe=0su__giktyj@hrfay(5o@)=@4(@a5_mw4y_8e'
-  EMAIL_HOST_USER: 'Savincev-DA@yandex.ru'
-  EMAIL_HOST_PASSWORD: 'uhphdferrxytngoh'
-  DEFAULT_FROM_EMAIL: 'EMAIL_HOST_USER'
-  EMAIL_SERVER: 'EMAIL_HOST_USER'
-  EMAIL_ADMIN: 'Play055@yandex.ru'
-  SITE_ID: '1'
-  SOCIAL_AUTH_VK_OAUTH2_KEY: '51743434'
-  SOCIAL_AUTH_VK_OAUTH2_SECRET: 'SwijxCZEmbifP94mjsTt'
-  SOCIAL_AUTH_VK_OAUTH2_SCOPE: 'email'
-
-
 services:
   postgres-db:
     image: postgres:latest
     container_name: postgres
-    environment:
-      POSTGRES_USER: psuser
-      POSTGRES_PASSWORD: 228322
-      POSTGRES_DB: discount_dbb
+    env_file:
+      - /website/.env
     ports:
       - "5433:5432"
     volumes:
@@ -39,8 +18,8 @@ services:
       - '8001:8000'
     depends_on:
       - postgres-db
-    environment:
-      <<: *environment-defaults
+    env_file:
+      - /website/.env
     volumes:
       - static_volume:/app/static
     restart: on-failure:5
