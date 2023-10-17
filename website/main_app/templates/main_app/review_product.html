@@ -1,0 +1,37 @@
+{% extends "main_app/base.html" %}
+
+{% block content %}
+
+<p class="review-name">{{product.name}}</p>
+
+
+{% block review %}
+<div class="review-form">
+    <form method="post">
+    {% csrf_token %}
+    {% for review in form %}
+        <p><label class="review-form-label" for="{{ review.id_for_label }}">{{review.label}}</label>{{ review }}</p>
+    {% endfor %}
+    <button type="submit" class="">отправить</button>
+    </form>
+</div>
+
+
+<h2>Отзывы:</h2>
+{% if review %}
+	{% for r in review %}
+		<div class="review-block">
+			<p class="review-content">{{ r.content }}</p>
+			<p class="review-rating">Звёзды: {{ r.rating }}</p>
+			<p class='date'>дата: {{ r.date }}</p>
+		</div>
+	{% endfor %}
+{% else %}
+<div class="review-list-content">
+	<p>Станьте первым!</p>
+</div>
+{% endif %}
+ 
+
+{% endblock review %}
+{% endblock content %}

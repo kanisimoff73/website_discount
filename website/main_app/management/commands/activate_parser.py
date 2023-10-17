@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile
 from django.core.management.base import BaseCommand
 from ...models import *
 from website.settings import BASE_DIR
@@ -10,7 +10,8 @@ from unidecode import unidecode
 from ._parser_command import refresh_tables
 from pathlib import Path
 
-no_photo = Path('\static\main_app\images\\no-image.jpg')
+
+no_photo = Path('/static/main_app/images/no-image.jpg')
 
 
 class Command(BaseCommand):
@@ -22,17 +23,17 @@ class Command(BaseCommand):
 
         refresh_tables() # Обнуляем данные в таблицах
         #Парсим наши данные
-        data_dir = join(BASE_DIR, 'main_app\static\main_app\data')
-        photo_dir = '\static\main_app\data'
+        data_dir = Path(BASE_DIR, 'main_app/static/main_app/data')
+        photo_dir = Path('/static/main_app/data')
         shops_id = {}
         categories_id = {}
         shop_id = 1
         cat_id = 1
 
         for shop_name in listdir(data_dir):
-            for cat in listdir(join(data_dir, shop_name)):
-                onlyfiles = [f for f in listdir(join(data_dir, shop_name, cat)) if
-                             isfile(join(data_dir, shop_name, cat, f))]
+            for cat in listdir(Path(data_dir, shop_name)):
+                onlyfiles = [f for f in listdir(Path(data_dir, shop_name, cat)) if
+                             isfile(Path(data_dir, shop_name, cat, f))]
                 if onlyfiles:
                     if shop_name not in shops_id:
                         Shops.objects.create(name=shop_name, slug=shop_name)  # создаем магазин если его ещё нет
@@ -50,7 +51,7 @@ class Command(BaseCommand):
                     cat_id_ = categories_id[cat]
                     shop = shops_id[shop_name]
                 for file_name in onlyfiles:
-                    path_to_file = join(data_dir, shop_name, cat, file_name)
+                    path_to_file = Path(data_dir, shop_name, cat, file_name)
                     with open(path_to_file, encoding='utf-8') as file:
                         src = file.read()
                     soup = BeautifulSoup(src, 'lxml')
@@ -62,8 +63,8 @@ class Command(BaseCommand):
                             name = item.find(class_='catalog-product__name').text[:-1]
                             photo = item.find('picture').find('img').get('src')[2:]
                             if photo:
-                                path_to_photo = join(data_dir, shop_name, cat, photo)
-                                path_to_photo_for_site = join(photo_dir, shop_name, cat, photo)
+                                path_to_photo = Path(data_dir, shop_name, cat, photo)
+                                path_to_photo_for_site = Path(photo_dir, shop_name, cat, photo)
                                 if not exists(path_to_photo):
                                     path_to_photo_for_site = no_photo
                             else:
@@ -94,8 +95,8 @@ class Command(BaseCommand):
                                     name = row.text
                                     photo = row.find_previous('img').get('src')[2:]
                                     if photo:
-                                        path_to_photo = join(data_dir, shop_name, cat, photo)
-                                        path_to_photo_for_site = join(photo_dir, shop_name, cat, photo)
+                                        path_to_photo = Path(data_dir, shop_name, cat, photo)
+                                        path_to_photo_for_site = Path(photo_dir, shop_name, cat, photo)
                                         if not exists(path_to_photo):
                                             path_to_photo_for_site = no_photo
                                     else:
@@ -118,8 +119,8 @@ class Command(BaseCommand):
                                 name = item.find(class_='product-title__text').text
                                 photo = item.find('picture').find('img').get('src')[2:]
                                 if photo:
-                                    path_to_photo = join(data_dir, shop_name, cat, photo)
-                                    path_to_photo_for_site = join(photo_dir, shop_name, cat, photo)
+                                    path_to_photo = Path(data_dir, shop_name, cat, photo)
+                                    path_to_photo_for_site = Path(photo_dir, shop_name, cat, photo)
                                     if not exists(path_to_photo):
                                         path_to_photo_for_site = no_photo
                                 else:
@@ -147,8 +148,8 @@ class Command(BaseCommand):
                             name = item.find("a", class_="tD").text
                             photo = item.find("a", class_="Bm").next_element.get("src")[2:]
                             if photo:
-                                path_to_photo = join(data_dir, shop_name, cat, photo)
-                                path_to_photo_for_site = join(photo_dir, shop_name, cat, photo)
+                                path_to_photo = Path(data_dir, shop_name, cat, photo)
+                                path_to_photo_for_site = Path(photo_dir, shop_name, cat, photo)
                                 if not exists(path_to_photo):
                                     path_to_photo_for_site = no_photo
                             else:
@@ -178,8 +179,8 @@ class Command(BaseCommand):
                                 photo = item.find("div", class_="app-catalog-lxji0k e153n9o30").next_element.get("src")[
                                         2:]
                             if photo:
-                                path_to_photo = join(data_dir, shop_name, cat, photo)
-                                path_to_photo_for_site = join(photo_dir, shop_name, cat, photo)
+                                path_to_photo = Path(data_dir, shop_name, cat, photo)
+                                path_to_photo_for_site = Path(photo_dir, shop_name, cat, photo)
                                 if not exists(path_to_photo):
                                     path_to_photo_for_site = no_photo
                             else:
@@ -198,3 +199,4 @@ class Command(BaseCommand):
                                 cat_id=cat_id_,
                                 shop_id=shop,
                             )
+        print('Парсинг окончен')

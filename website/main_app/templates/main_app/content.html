@@ -1,0 +1,76 @@
+{% extends "main_app/base.html" %}
+
+{% block content %}
+<div class="search">
+    <form method="GET", action="{% url 'search' %}">
+    {% for s in search_field %}
+        <label class="search-field" for="{{ s.id_for_label }}"></label>{{ s }}
+    {% endfor %}
+    <button type="submit" class="search-button">&#128269</button>
+    </form>
+</div>
+<div class="main-content">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <ul>
+    {% for p in products %}
+        <li>
+            <div class="product">
+                <img class="product-photo" src="{{p.photo}}">
+                <p><a class="product-link" href="{{p.link}}">{{p.name}}</a></p>
+                <p class="product-shop">Магазин: {{p.shop.name}}</p>
+                <p class="product-cat">Категория: {{p.cat.name}}</p>
+                <p class="product-price">Цена: {{p.previous_price}}</p>
+                <a class="review-button" href="{{ p.get_absolute_url }}">Отзывы</a>
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+
+<!-- Переключение страниц -->
+
+{% if page_obj.has_other_pages %}
+    <nav class="list-pages">
+        <ul>
+
+
+    {% if page_obj.has_previous %}
+        <li class="page-num">
+             <a href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+        </li>
+    {% endif %}
+
+
+            {% for p in paginator.page_range %}
+                {% if page_obj.number == p %}
+                    <li class="page-num page-num-selected">{{ p }}</li>
+                {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2  %}
+                    <li class="page-num">
+                        <a href="?page={{ p }}">{{ p }}</a>
+                {% endif %}
+                    </li>
+            {% endfor %}
+
+
+    {% if page_obj.number < paginator.num_pages|add:-2 %}
+        <li class="page-num">
+            <a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a>
+        </li>
+    {% endif %}
+
+
+{% if page_obj.has_next %}
+    <li class="page-num">
+         <a href="?page={{ page_obj.next_page_number }}">&gt;</a>
+    </li>
+{% endif %}
+        </ul>
+    </nav>
+{% endif %}
+{% endblock content %}
