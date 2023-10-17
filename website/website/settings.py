@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'website.wsgi.application'
 #     }
 # }
 
-# БД из докера
+# Для докера
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
